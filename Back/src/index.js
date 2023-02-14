@@ -1,10 +1,12 @@
 const express = require('express');
 const morgan = require('morgan');
 const mysqlConnection = require("./database");
+const cors = require('cors');
 
 const app = express();
 
 app.use(morgan('dev'));
+app.use(cors());
 app.use(express.json());
 app.set('port', 3302);
 
