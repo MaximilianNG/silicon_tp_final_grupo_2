@@ -1,4 +1,6 @@
+import { Link } from 'react-router-dom'
 import '../styles/login.css'
+import '../styles/reset.css'
 
 export function Login() {
   return (
@@ -14,7 +16,8 @@ export function Login() {
                     <label htmlFor="exampleInputPassword1">Contraseña</label>
                     <input type="password" className="form-control" id="exampleInputPassword1" placeholder="Ingrese su contraseña" />
                 </div>
-                <button type="submit" className="btn btn-primary mt-3">Submit</button>
+{/*                 <button type="submit" className="btn btn-primary mt-3">Entrar</button> */}
+                    <Link to={`/admin`} className="btn btn-primary mt-3">Entrar</Link>
             </form>
         </div>
       </>
