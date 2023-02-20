@@ -1,0 +1,14 @@
+.containerP {
+    margin-top: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    column-gap: 1.5rem;
+    row-gap: 1rem;
+}
+
+.adminButton {
+    background-color: antiquewhite;
+    min-width: 8rem;
+    min-height: 5rem;
+}

@@ -1,0 +1,17 @@
+.containerJuegos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.juegosButton {
+    min-width: 8rem;
+    min-height: 5rem;
+}
+
+.containerCentrar {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
+}
