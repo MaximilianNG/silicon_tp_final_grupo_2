@@ -8,7 +8,7 @@ const app = express();
 app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
-app.set('port', 3302);
+app.set('port', 3300);
 
 //Arrancar el servidor
 app.listen(app.get('port'), ()=> {

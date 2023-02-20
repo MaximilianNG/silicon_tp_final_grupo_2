@@ -1,4 +1,4 @@
-const API = 'http://localhost:3302';
+const API = 'http://localhost:3300';
 
 export async function getDepartamentos() {
     try {
