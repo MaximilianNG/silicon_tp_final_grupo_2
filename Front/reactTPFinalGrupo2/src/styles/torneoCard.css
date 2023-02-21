@@ -1,0 +1,20 @@
+.card {
+    width: 20rem;
+    background-color: rgb(178, 178, 179);
+}
+
+.card-title {
+    text-align: center;
+}
+
+.card-text {
+    text-align: center;
+}
+
+.cardBotonesContainer {
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    gap: 0.2rem;
+    margin-bottom: 0.5rem;
+}

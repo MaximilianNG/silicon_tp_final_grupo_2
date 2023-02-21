@@ -1,0 +1,17 @@
+.containerTorneos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    justify-content: center;
+}
+
+.torneosButton {
+    min-width: 8rem;
+    min-height: 5rem;
+}
+
+.containerCentrar {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
+}
