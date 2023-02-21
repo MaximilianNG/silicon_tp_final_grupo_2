@@ -1,0 +1,20 @@
+.centrarContainer {
+    display: flex;
+    justify-content: center;
+    margin: 1rem 0;
+}
+
+.TituloContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 0.2rem;
+}
+
+.BotonesContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+}
