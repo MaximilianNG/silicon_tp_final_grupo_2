@@ -9,6 +9,7 @@ import { Juegos } from './Juegos'
 import { Torneos } from './Torneos'
 import { Sponsors } from './Sponsors'
 import { Equipos } from './Equipos';
+import { Jugadores } from './Jugadores'
 import '../styles/app.css'
 
 function App() {
@@ -30,6 +31,7 @@ useEffect(() => {
       <Route path='/torneos' element={<Torneos />}></Route>
       <Route path='/sponsors' element={<Sponsors />}></Route>
       <Route path='/equipos' element={<Equipos />}></Route>
+      <Route path='/jugadores' element={<Jugadores />}></Route>
     </Routes>
   </div>
 
