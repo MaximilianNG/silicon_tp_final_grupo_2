@@ -6,6 +6,7 @@ import { Button } from 'react-bootstrap';
 import { Login } from './Login'
 import { Admin } from './Admin'
 import { Juegos } from './Juegos'
+import { Equipos } from './Equipos';
 import '../styles/app.css'
 
 function App() {
@@ -24,6 +25,7 @@ useEffect(() => {
       <Route path='/' element={<Login />}></Route>
       <Route path='/admin' element={<Admin />}></Route>
       <Route path='/juegos' element={<Juegos />}></Route>
+      <Route path='/equipos' element={<Equipos />}></Route>
     </Routes>
   </div>
 
