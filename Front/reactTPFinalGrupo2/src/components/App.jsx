@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import { useState, useEffect } from 'react'
-import * as API from '../services/service'
+import * as API from '../services/juegosService'
 import {v4 as uuidv4 } from 'uuid'
 import { Button } from 'react-bootstrap';
 import { Login } from './Login'
@@ -13,12 +13,6 @@ import { Jugadores } from './Jugadores'
 import '../styles/app.css'
 
 function App() {
-/* const [departamentos, setDepartamentos] = useState([])
-
-useEffect(() => {
-  API.getDepartamentos().then(setDepartamentos)
-}, []) */
-
   return (
   <>
   

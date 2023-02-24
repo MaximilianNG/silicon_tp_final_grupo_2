@@ -1,23 +1,19 @@
 const express = require('express');
-const morgan = require('morgan');
-const mysqlConnection = require("./database");
-const cors = require('cors');
-
 const app = express();
-
-app.use(morgan('dev'));
-app.use(cors());
 app.use(express.json());
-app.set('port', 3300);
+app.set('port' , process.env.PORT || 3302);
+
+const morgan = require('morgan');
+app.use(morgan('dev'));
+
+const cors = require('cors');
+app.use(cors());
+
+//  Rutas
+app.use(require('./router/juegosRouter.js'))
+app.use(require('./router/jugadoresRouter.js'))
 
 //Arrancar el servidor
 app.listen(app.get('port'), ()=> {
     console.log("El servidor se está ejecutando en el puerto ", app.get('port'));
 })
-
-//GET de prueba.
-app.get('/', (req, res)=>{
-    mysqlConnection.query('select * from departamentos', (err, rows)=>{
-        res.json(rows);
-    })
-});
