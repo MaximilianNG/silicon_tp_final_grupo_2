@@ -46,7 +46,7 @@ export function JuegoCard(props) {
     const datos_enviar = {
       nombre: nombre
     };
-    const respuesta = await (API.editarJuego, datos_enviar);
+    const respuesta = await (API.editarJuego(id, datos_enviar));
     nombre_juego.current.value = "";
     respuesta.status?
     console.log(respuesta.mensaje):
@@ -57,15 +57,15 @@ export function JuegoCard(props) {
     <>
         <div className="card">
             <div className="card-body">
-                <h5 className="card-title">{props.name}</h5>
+                <h5 className="card-title">{props.nombre}</h5>
             </div>
             <div className="cardBotonesContainer">
                 <button onClick={() => renderEditarForm()} className="btn btn-primary">Editar</button>
                 {estado?
                 <button onClick={() => estadoJuego(id, '0')}
-                className="btn btn-danger">Dar de baja</button>:
+                className="btn btn-success">Activo</button>:
                 <button onClick={() => estadoJuego(id, '1')} 
-                className="btn btn-success">Dar de alta</button>}
+                className="btn btn-danger">Inactivo</button>}
             </div>
             {editar?
             <form className={`editarContainer ${animacion ? "mostrar" : ""}`}>

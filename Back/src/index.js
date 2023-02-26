@@ -12,6 +12,7 @@ app.use(cors());
 //  Rutas
 app.use(require('./router/juegosRouter.js'))
 app.use(require('./router/jugadoresRouter.js'))
+app.use(require('./router/equiposRouter.js'))
 
 //Arrancar el servidor
 app.listen(app.get('port'), ()=> {

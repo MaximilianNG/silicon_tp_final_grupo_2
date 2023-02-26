@@ -11,70 +11,73 @@ const mysqlConnection = require('../database');
 
 ///////////////  C.R.U.D. de Juegos  ///////////////
 
-//CREATE de un juego nuevo.
-router.post('/juegos', (req, res) => {
-    const { nombre } = req.body;
-    let query = `INSERT INTO juegos (nombre) VALUES ('${nombre}')`;
+//CREATE de un equipo nuevo.
+router.post('/equipos', (req, res) => {
+    const { nombre, id_juego } = req.body;
+    let query = `INSERT INTO equipos (nombre, id_juego) VALUES ('${nombre}', '${id_juego}')`;
 
     mysqlConnection.query(query, (err, rows) => {
         if (!err) {
             res.json({
                 status: true,
-                mensaje: "El juego se creó correctamente."
+                mensaje: "El equipo se creó correctamente."
             });
         } else {
             res.json({
                 status: false,
-                mensaje: "Hubo un error creando el juego. Ver juegosRouter.js."
+                mensaje: "Hubo un error creando el equipo. Ver equiposRouter.js."
             });
         }
     })
 })
 
-//READ (GET) de todos los juegos.
-router.get('/juegos', (req, res)=>{
-    mysqlConnection.query('SELECT * from juegos', (err, rows)=>{
+//READ (GET) de todos los equipos.
+router.get('/equipos', (req, res)=>{
+    let query = `SELECT e.id, e.nombre, e.estado, j.nombre AS juego FROM equipos AS e
+                INNER JOIN juegos AS j
+                ON e.id_juego = j.id;`
+    mysqlConnection.query(query, (err, rows)=>{
         res.json(rows);
     })
 });
 
-//UPDATE de un juego nuevo.
-router.put('/juegos/:id', (req, res) => {
+//UPDATE de un equipo.
+router.put('/equipos/:id', (req, res) => {
     let id = req.params.id;
-    const { nombre } = req.body;
-    let query = `UPDATE juegos SET nombre='${nombre}' WHERE id=${id}`;
+    const { nombre, id_juego } = req.body;
+    let query = `UPDATE equipos SET nombre = '${nombre}', id_juego = '${id_juego}' WHERE id = ${id};`;
 
     mysqlConnection.query(query, (err, rows) => {
         if (!err) {
             res.json({
                 status: true,
-                mensaje: "El juego se editó correctamente."
+                mensaje: "El equipo se editó correctamente."
             });
         } else {
             res.json({
                 status: false,
-                mensaje: "Hubo un error editando el juego. Ver juegosRouter.js."
+                mensaje: "Hubo un error editando el equipo. Ver equiposRouter.js."
             });
         }
     })
 })
 
-//DELETE lógico de un juego.
-router.put('/estadojuegos/:id', (req, res)=>{
+//DELETE lógico de un equipo.
+router.put('/estadoequipos/:id', (req, res)=>{
     let id = req.params.id;
     let estado = req.body.estado;
-    let query = `UPDATE juegos SET estado=${estado} WHERE id=${id}`;
+    let query = `UPDATE equipos SET estado=${estado} WHERE id=${id}`;
 
     mysqlConnection.query(query, (err, rows)=>{
         if (!err) {
             res.json({
                 status: true,
-                mensaje: "El estado del juego se cambió correctamente."
+                mensaje: "El estado del equipo se cambió correctamente."
             });
         } else {
             res.json({
                 status: false,
-                mensaje: "Hubo un error cambiando el estado del juego."
+                mensaje: "Hubo un error cambiando el estado del equipo."
             });
         }
     })

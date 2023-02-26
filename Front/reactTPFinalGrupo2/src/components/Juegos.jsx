@@ -14,10 +14,12 @@ export function Juegos() {
   //Referencias del componente
   const nombre_juego = useRef();
 
+  //Effects
   useEffect(() => {
-    API.getJuegos().then(setJuegos);
+    API.getJuegos().then(setJuegos)
   }, [])
 
+  //Utilidades
   function renderNuevoJuegoForm() {
     setNuevo(!nuevo);
     setTimeout(()=>{
@@ -56,7 +58,7 @@ export function Juegos() {
       <></>}
         <div className="containerJuegos">
           {juegos.map((juego) => (
-            <JuegoCard key={uuidv4()} name={`${juego.nombre}`} estado={`${juego.estado}`}
+            <JuegoCard key={uuidv4()} nombre={`${juego.nombre}`} estado={`${juego.estado}`}
             id={`${juego.id}`}/>
           ))}
         </div>
