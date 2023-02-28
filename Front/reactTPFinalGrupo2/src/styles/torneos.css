@@ -15,3 +15,12 @@
     justify-content: center;
     margin: 1rem 0;
 }
+
+.containerNuevoTorneo {
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 0 2rem 1rem 2rem;
+    padding: 1rem;
+    border: 5px ridge #7c4792;
+}

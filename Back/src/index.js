@@ -13,6 +13,7 @@ app.use(cors());
 app.use(require('./router/juegosRouter.js'))
 app.use(require('./router/jugadoresRouter.js'))
 app.use(require('./router/equiposRouter.js'))
+app.use(require('./router/torneosRouter.js'))
 
 //Arrancar el servidor
 app.listen(app.get('port'), ()=> {
