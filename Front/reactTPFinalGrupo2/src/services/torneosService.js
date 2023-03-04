@@ -28,7 +28,7 @@ export async function getTorneos() {
 
 
 //UPDATE de un equipo.
-/* export async function editarEquipo(id, datos) {
+export async function editarTorneo(id, datos) {
     const requestOptions={
         method: 'PUT',
         headers: {
@@ -37,13 +37,13 @@ export async function getTorneos() {
         body: JSON.stringify(datos)
     };
     try {
-        const response = await fetch(`${API}/equipos/${id}`, requestOptions);
+        const response = await fetch(`${API}/torneos/${id}`, requestOptions);
         const data = await response.json();
         return data;
     } catch(error) {
-        console.log("Error en equiposService.js");
+        console.log("Error en  edtiarTorneo.js de torneosService.js");
     }
-}   */
+}  
 
 //DELETE lógico de un torneo.
 export async function estadoTorneo(id, datos) {

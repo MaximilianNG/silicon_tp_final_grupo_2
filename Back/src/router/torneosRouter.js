@@ -34,7 +34,7 @@ router.post('/torneos', (req, res) => {
 
 //READ (GET) de todos los torneos.
 router.get('/torneos', (req, res)=>{
-    let query = `SELECT t.id, t.fecha, j.nombre AS juego, l.nombre AS localidad, t.estado FROM torneos AS t
+    let query = `SELECT t.id, t.fecha, j.nombre AS juego, l.nombre AS localidad, t.estado, id_primerPuesto, id_segundoPuesto, id_tercerPuesto FROM torneos AS t
                 INNER JOIN juegos AS j ON t.id_juego = j.id
                 INNER JOIN localidades AS l ON t.id_localidad = l.id`;
 
@@ -44,25 +44,27 @@ router.get('/torneos', (req, res)=>{
 });
 
 //UPDATE de un juego nuevo.
-/* router.put('/juegos/:id', (req, res) => {
+router.put('/torneos/:id', (req, res) => {
     let id = req.params.id;
-    const { nombre } = req.body;
-    let query = `UPDATE juegos SET nombre='${nombre}' WHERE id=${id}`;
+    const { fecha, id_juego, id_localidad, id_primerPuesto, id_segundoPuesto, id_tercerPuesto } = req.body;
+    let query = `UPDATE torneos SET fecha = '${fecha}', id_juego = '${id_juego}', id_localidad = '${id_localidad}',
+     id_primerPuesto = '${id_primerPuesto}', id_segundoPuesto = '${id_segundoPuesto}', 
+     id_tercerPuesto = '${id_tercerPuesto}' WHERE id = ${id};`;
 
     mysqlConnection.query(query, (err, rows) => {
         if (!err) {
             res.json({
                 status: true,
-                mensaje: "El juego se editó correctamente."
+                mensaje: "El torneo se editó correctamente."
             });
         } else {
             res.json({
                 status: false,
-                mensaje: "Hubo un error editando el juego. Ver juegosRouter.js."
+                mensaje: "Hubo un error editando el torneo. Ver torneosRouter.js."
             });
         }
     })
-}) */
+})
 
 //DELETE lógico de un torneo.
 router.put('/estadotorneos/:id', (req, res)=>{

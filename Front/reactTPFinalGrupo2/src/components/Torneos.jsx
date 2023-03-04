@@ -42,7 +42,7 @@ export function Torneos() {
     };
 
     for (const propiedad in datos_enviar) {
-      if (datos_enviar[propiedad] == "0") {
+      if (datos_enviar[propiedad] == "0" || datos_enviar[propiedad] == "") {
         control = true;
       }
     }
@@ -144,16 +144,13 @@ export function Torneos() {
           </div>
           <button onClick={() => nuevoTorneo()} type="button" className="btn btn-primary mt-5">Agregar</button>
         </form>
-
-        
           :<></>}
-
-          
 
         <div className="containerTorneos">
           {torneos.map((torneo) => (
             <TorneoCard key={uuidv4()} juego={torneo.juego} localidad={torneo.localidad} 
-            fecha={torneo.fecha} id={torneo.id} estado={torneo.estado}/>
+            fecha={torneo.fecha} id={torneo.id} estado={torneo.estado} primero={torneo.id_primerPuesto} 
+            segundo={torneo.id_segundoPuesto} tercero={torneo.id_tercerPuesto} equipos={equipos} juegos={juegos}/>
           ))}
         </div>
         <div className="containerCentrar">

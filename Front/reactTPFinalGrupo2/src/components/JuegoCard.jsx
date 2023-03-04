@@ -31,7 +31,8 @@ export function JuegoCard(props) {
     //Si vino true, mostranos el mensaje de que salió todo bien
     console.log(respuesta.mensaje):
     //Si no, el otro.
-    console.log(respuesta.mensaje);;
+    console.log(respuesta.mensaje);
+    window.location.reload(false);
   }
 
   const renderEditarForm = () => {
@@ -50,7 +51,8 @@ export function JuegoCard(props) {
     nombre_juego.current.value = "";
     respuesta.status?
     console.log(respuesta.mensaje):
-    console.log(respuesta.mensaje);;
+    console.log(respuesta.mensaje);
+    window.location.reload(false);
   }
 
   return (

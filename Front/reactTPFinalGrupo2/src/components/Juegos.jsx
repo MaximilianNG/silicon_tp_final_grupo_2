@@ -37,6 +37,7 @@ export function Juegos() {
     respuesta.status?
     console.log(respuesta.mensaje):
     console.log(respuesta.mensaje);;
+    window.location.reload(false);
   }
 
   return (
