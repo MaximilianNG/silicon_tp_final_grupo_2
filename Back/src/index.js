@@ -14,6 +14,7 @@ app.use(require('./router/juegosRouter.js'))
 app.use(require('./router/jugadoresRouter.js'))
 app.use(require('./router/equiposRouter.js'))
 app.use(require('./router/torneosRouter.js'))
+app.use(require('./router/sponsorsRouter.js'))
 
 //Arrancar el servidor
 app.listen(app.get('port'), ()=> {

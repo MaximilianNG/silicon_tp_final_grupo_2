@@ -15,6 +15,7 @@ export function Torneos() {
   const [nuevo, setNuevo] = useState(false);
 
   //Referencias
+  const nombre = useRef();
   const fecha = useRef();
   const id_juego = useRef();
   const id_localidad = useRef();
@@ -33,6 +34,7 @@ export function Torneos() {
   const nuevoTorneo = async () => {
     let control = false;
     const datos_enviar = {
+      nombre: nombre.current.value,
       fecha: fecha.current.value,
       id_juego: id_juego.current.value,
       id_localidad: id_localidad.current.value,
@@ -67,12 +69,16 @@ export function Torneos() {
   return (
     <>
       <div className="containerCentrar">
-            <button onClick={() => renderNuevoTorneoForm()} className='btn btn-success torneosButton'>Nuevo Torneo</button>
+            <button onClick={() => renderNuevoTorneoForm()} className='btn btn-success torneosButton'>Crear Torneo</button>
       </div>
 
       {nuevo?
           <form className={`containerNuevoTorneo`}>
           <div>
+            <label htmlFor="nombreTorneo" className="form-label text-light mb-2">Nombre</label>
+            <input type="text" className="form-control mb-3" id="nombreTorneo" 
+            aria-describedby="nombre del torneo" ref={nombre}/>
+
             <label htmlFor="fechaTorneo" className="form-label text-light mb-2">Fecha</label>
             <input type="date" className="form-control mb-3" id="fechaTorneo" 
             aria-describedby="fecha del torneo" ref={fecha}/>
@@ -149,7 +155,7 @@ export function Torneos() {
         <div className="containerTorneos">
           {torneos.map((torneo) => (
             <TorneoCard key={uuidv4()} juego={torneo.juego} localidad={torneo.localidad} 
-            fecha={torneo.fecha} id={torneo.id} estado={torneo.estado} primero={torneo.id_primerPuesto} 
+            fecha={torneo.fecha} id={torneo.id} nombre={torneo.nombre} estado={torneo.estado} primero={torneo.id_primerPuesto} 
             segundo={torneo.id_segundoPuesto} tercero={torneo.id_tercerPuesto} equipos={equipos} juegos={juegos}/>
           ))}
         </div>

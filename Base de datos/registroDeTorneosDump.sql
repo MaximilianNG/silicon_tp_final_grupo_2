@@ -84,7 +84,7 @@ CREATE TABLE `equipos` (
   UNIQUE KEY `nombre_UNIQUE` (`nombre`),
   KEY `ID_JUEGO_idx` (`id_juego`),
   CONSTRAINT `EQUIPOS_ID_JUEGO` FOREIGN KEY (`id_juego`) REFERENCES `juegos` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -93,7 +93,7 @@ CREATE TABLE `equipos` (
 
 LOCK TABLES `equipos` WRITE;
 /*!40000 ALTER TABLE `equipos` DISABLE KEYS */;
-INSERT INTO `equipos` VALUES (1,'Banzai',1,1),(2,'Crimson',1,1),(3,'Toxic',1,1),(4,'Gecko',1,0),(5,'Wasps',2,1),(6,'Silver',2,1),(7,'Kamikaze',2,1),(8,'Delta',2,0),(9,'Commando',3,1);
+INSERT INTO `equipos` VALUES (1,'Banzai',2,1),(2,'Crimson',1,1),(3,'Toxic',1,1),(4,'Gecko',1,0),(5,'Wasps',2,1),(6,'Silver',2,1),(7,'Kamikaze',2,1),(8,'Delta',2,0),(9,'Commando',3,1),(11,'El Nuevo Equipo',2,1);
 /*!40000 ALTER TABLE `equipos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -113,7 +113,7 @@ CREATE TABLE `equipos_sponsors` (
   KEY `EQUIPOS_SPONSORS_ID_SPONSOR_idx` (`id_sponsor`),
   CONSTRAINT `EQUIPOS_SPONSORS_ID_EQUIPO` FOREIGN KEY (`id_equipo`) REFERENCES `equipos` (`id`),
   CONSTRAINT `EQUIPOS_SPONSORS_ID_SPONSOR` FOREIGN KEY (`id_sponsor`) REFERENCES `sponsors` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,7 +122,7 @@ CREATE TABLE `equipos_sponsors` (
 
 LOCK TABLES `equipos_sponsors` WRITE;
 /*!40000 ALTER TABLE `equipos_sponsors` DISABLE KEYS */;
-INSERT INTO `equipos_sponsors` VALUES (1,1,1),(2,1,2),(3,2,1),(4,3,4),(5,5,2),(6,6,3),(7,7,1);
+INSERT INTO `equipos_sponsors` VALUES (2,1,2),(3,2,1),(4,3,4),(5,5,2),(6,6,3),(7,7,1),(8,3,7),(9,1,1);
 /*!40000 ALTER TABLE `equipos_sponsors` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -138,7 +138,7 @@ CREATE TABLE `juegos` (
   `nombre` varchar(45) NOT NULL,
   `estado` tinyint NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -147,7 +147,7 @@ CREATE TABLE `juegos` (
 
 LOCK TABLES `juegos` WRITE;
 /*!40000 ALTER TABLE `juegos` DISABLE KEYS */;
-INSERT INTO `juegos` VALUES (1,'League of Legends',1),(2,'Valorant',1),(3,'Counter Strike: Global Offensive',0);
+INSERT INTO `juegos` VALUES (1,'League of Legends',1),(2,'Valorant',1),(3,'CS: GO',1);
 /*!40000 ALTER TABLE `juegos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -227,7 +227,7 @@ CREATE TABLE `sponsors` (
   `estado` tinyint NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`),
   UNIQUE KEY `nombre_UNIQUE` (`nombre`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -236,7 +236,7 @@ CREATE TABLE `sponsors` (
 
 LOCK TABLES `sponsors` WRITE;
 /*!40000 ALTER TABLE `sponsors` DISABLE KEYS */;
-INSERT INTO `sponsors` VALUES (1,'Silicon',1),(2,'Misiones Group',1),(3,'California',1),(4,'Pinturerías del Centro',1),(5,'Petri',0),(6,'Doña Chola',0);
+INSERT INTO `sponsors` VALUES (1,'Silicon',1),(2,'Misiones Group',1),(3,'California',1),(4,'Pinturerías del Centro',1),(5,'Petri',0),(6,'Doña Chola',0),(7,'Logex SRL',1);
 /*!40000 ALTER TABLE `sponsors` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -249,6 +249,7 @@ DROP TABLE IF EXISTS `torneos`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `torneos` (
   `id` int NOT NULL AUTO_INCREMENT,
+  `nombre` varchar(45) NOT NULL,
   `fecha` date NOT NULL COMMENT 'Formato: YYYY-MM-DD (año-mes-día)',
   `id_juego` int NOT NULL,
   `id_localidad` int NOT NULL,
@@ -267,7 +268,7 @@ CREATE TABLE `torneos` (
   CONSTRAINT `TORNEOS_ID_PRIMER_PUESTO` FOREIGN KEY (`id_primerPuesto`) REFERENCES `equipos` (`id`),
   CONSTRAINT `TORNEOS_ID_SEGUNDO_PUESTO` FOREIGN KEY (`id_segundoPuesto`) REFERENCES `equipos` (`id`),
   CONSTRAINT `TORNEOS_ID_TERCER_PUESTO` FOREIGN KEY (`id_tercerPuesto`) REFERENCES `equipos` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -276,7 +277,7 @@ CREATE TABLE `torneos` (
 
 LOCK TABLES `torneos` WRITE;
 /*!40000 ALTER TABLE `torneos` DISABLE KEYS */;
-INSERT INTO `torneos` VALUES (1,'2023-02-22',1,1,3,1,2,1),(2,'2023-02-17',2,2,6,5,7,1);
+INSERT INTO `torneos` VALUES (1,'Drip Shot','2023-03-07',3,9,5,7,3,1),(2,'Aces','2023-02-17',2,2,6,5,7,1),(3,'KDA','2023-02-26',3,10,1,2,3,1),(4,'Net Set','2023-03-02',3,4,3,1,11,0),(5,'40-L','2023-02-10',1,5,9,1,3,1),(6,'Smash','2023-02-22',2,1,11,11,11,1);
 /*!40000 ALTER TABLE `torneos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -296,7 +297,7 @@ CREATE TABLE `torneos_sponsors` (
   KEY `TORNEOS_SPONSOROS_ID_SPONSOR_idx` (`id_sponsor`),
   CONSTRAINT `TORNEOS_SPONSOROS_ID_SPONSOR` FOREIGN KEY (`id_sponsor`) REFERENCES `sponsors` (`id`),
   CONSTRAINT `TORNEOS_SPONSORS_ID_TORNEO` FOREIGN KEY (`id_torneo`) REFERENCES `torneos` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -318,4 +319,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-02-22 13:42:56
+-- Dump completed on 2023-03-05 17:09:57
