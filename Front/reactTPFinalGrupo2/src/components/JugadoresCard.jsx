@@ -1,8 +1,12 @@
-import '../styles/torneoCard.css'
-import { useState, useEffect, useRef } from 'react'
+import '../styles/jugadoresCard.css'
+import { useState, useRef } from 'react'
 import * as API from '../services/jugadoresService'
 
 export function JugadoresCard(props) {
+
+  const [editar, setEditar] = useState(false);
+  const nombreJugador = useRef();
+
   //Constructor
   let nombre = props.nombre;
   let apellido = props.apellido;
@@ -17,6 +21,7 @@ export function JugadoresCard(props) {
   }
 
   //Utilidades
+
   const estadoJugador = async(id, estado) => {
     const datos_enviar = {
         estado: estado
@@ -46,6 +51,17 @@ export function JugadoresCard(props) {
             <button onClick={() => estadoJugador(id, "0")} className="btn btn-success">Activo</button>:
             <button onClick={() => estadoJugador(id, "1")} className="btn btn-danger">Inactivo</button>}
         </div>
+
+        {editar?
+            <form className={`editarContainer ${animacion ? "mostrar" : ""}`}>
+              <div>
+                <label htmlFor="nombreJugador" className="form-label mx-2">Nuevo nombre del jugador:</label>
+                <input type="text" className="form-control mb-3" id="nombreJuego" 
+                aria-describedby="nombreJuego" ref={nombre}/>
+              </div>
+              <button onClick={() => editarJuego(id)} type="button" className="btn btn-primary">Editar</button>
+            </form>: 
+        <></>}
     </div>
   )
 }
@@ -53,26 +69,3 @@ export function JugadoresCard(props) {
 
 
 
-
-
-// export function JugadoresCard() {
-//   return (
-//     <>
-//         <div className="card">
-//             <div className="card-body">
-//                 <h5 className="card-title">Nombre</h5>
-//                 <h5 className="card-title">Apellido</h5>
-//                 <h5 className="card-title">Apodo</h5>
-//                 <h5 className="card-title">Email</h5>
-//                 <h5 className="card-title">Localidad</h5>
-//                 <h5 className="card-title">Equipo</h5>
-//                 <h5 className="card-title">Estado</h5>
-//                 <div className="cardBotonesContainer">
-//                     <a href="#" className="btn btn-primary">Editar</a>
-//                     <a href="#" className="btn btn-danger">Dar de baja</a>
-//                 </div>
-//             </div>
-//         </div>
-//     </>
-//   )
-// }
