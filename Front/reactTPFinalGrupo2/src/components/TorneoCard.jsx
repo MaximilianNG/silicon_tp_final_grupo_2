@@ -17,6 +17,7 @@ export function TorneoCard(props) {
   }
   
   //Referencias
+  const nombreEd = useRef();
   const fechaEd = useRef();
   const id_juego = useRef();
   const id_localidad = useRef();
@@ -47,6 +48,7 @@ export function TorneoCard(props) {
     let control = false;
 
     const datos_enviar = {
+      nombre: nombreEd.current.value,
       fecha: fechaEd.current.value,
       id_juego: id_juego.current.value,
       id_localidad: id_localidad.current.value,
@@ -76,7 +78,8 @@ export function TorneoCard(props) {
   return (
     <div className="card">
         <div className="card-body">
-            <h5 className="card-title">Fecha: {fecha}</h5>
+            <h5 className="card-title">{props.nombre}</h5>
+            <p className="card-text">Fecha: {fecha}</p>
             <p className="card-text">ID: {props.id}</p>
             <p className="card-text">Juego: {juego}</p>
             <p className="card-text">Localidad: {localidad}</p>
@@ -93,7 +96,11 @@ export function TorneoCard(props) {
         {editar?
             <form className={`editarContainer`}>
             <div>
-              <label htmlFor="fechaTorneo" className="form-label mb-2 mt-3">Nueva fecha</label>
+              <label htmlFor="nombreTorneo" className="form-label mb-2 mt-3">Nuevo nombre</label>
+              <input type="text" className="form-control mb-3" id="nombreTorneo" 
+              aria-describedby="nombre del torneo" ref={nombreEd}/>
+
+              <label htmlFor="fechaTorneo" className="form-label mb-2">Nueva fecha</label>
               <input type="date" className="form-control mb-3" id="fechaTorneo" 
               aria-describedby="fecha del torneo" ref={fechaEd}/>
   
