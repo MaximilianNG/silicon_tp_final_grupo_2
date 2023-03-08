@@ -1,13 +1,8 @@
 const express = require('express');
 const router = express();
-
-/* // Librería para encriptar passwords.
-const bcrypt= require('bcrypt');
-// Librería para generar tokens.
-const jwt= require('jsonwebtoken'); */
-
-// Archivo de conexión a la base de datos.
+const jwt= require('jsonwebtoken');
 const mysqlConnection = require('../database');
+const verificarToken = require('./jwt');
 
 ///////////////  C.R.U.D. de Torneos  ///////////////
 
@@ -33,13 +28,22 @@ router.post('/torneos', (req, res) => {
 })
 
 //READ (GET) de todos los torneos.
-router.get('/torneos', (req, res)=>{
-    let query = `SELECT t.id, t.nombre, t.fecha, j.nombre AS juego, l.nombre AS localidad, t.estado, id_primerPuesto, id_segundoPuesto, id_tercerPuesto FROM torneos AS t
-                INNER JOIN juegos AS j ON t.id_juego = j.id
-                INNER JOIN localidades AS l ON t.id_localidad = l.id`;
-
-    mysqlConnection.query(query, (err, rows)=>{
-        res.json(rows);
+router.get('/torneos', verificarToken, (req, res)=>{
+    jwt.verify(req.token, 'silicon', (error, valido) => {
+        if (error) {
+            console.log("Error verificando.");
+            res.json({
+                status: false,
+                mensaje: "Problema con sus credenciales, inicie sesión nuevamente."
+            })
+        } else {
+            let query = `SELECT t.id, t.nombre, t.fecha, j.nombre AS juego, l.nombre AS localidad, t.estado, id_primerPuesto, id_segundoPuesto, id_tercerPuesto FROM torneos AS t
+            INNER JOIN juegos AS j ON t.id_juego = j.id
+            INNER JOIN localidades AS l ON t.id_localidad = l.id`;
+            mysqlConnection.query(query, (err, rows)=>{
+            res.json(rows);
+        })
+        }
     })
 });
 

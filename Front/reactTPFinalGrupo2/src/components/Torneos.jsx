@@ -6,6 +6,8 @@ import * as API from '../services/torneosService'
 import * as APIJuegos from '../services/juegosService'
 import * as APIEquipos from '../services/equiposService'
 import { v4 as uuidv4 } from 'uuid'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export function Torneos() {
   //Estados
@@ -13,6 +15,7 @@ export function Torneos() {
   const [juegos, setJuegos] = useState([]);
   const [equipos, setEquipos] = useState([]);
   const [nuevo, setNuevo] = useState(false);
+  const [problema, setProblema] = useState(false);
 
   //Referencias
   const nombre = useRef();
@@ -25,7 +28,17 @@ export function Torneos() {
 
   //Effect
   useEffect(() => {
-    API.getTorneos().then(setTorneos);
+    API.getTorneos().then((datos) => {
+      if (datos.status == undefined) {
+        setTorneos(datos);
+      } else if (datos.status == false) {
+        toast.error("Problema de autenticación, haga click en volver.", {
+          toastId: "problema",
+          autoClose: 6000
+        });
+        setProblema(true);
+      }
+    });
     APIJuegos.getJuegos().then(setJuegos);
     APIEquipos.getEquipos().then(setEquipos);
   }, [])
@@ -66,10 +79,21 @@ export function Torneos() {
     setNuevo(!nuevo);
   }
 
+  const clearToken = () => {
+    window.localStorage.removeItem('usuario');
+    window.localStorage.removeItem('token');
+    }
+
   return (
     <>
+    {problema?
       <div className="containerCentrar">
-            <button onClick={() => renderNuevoTorneoForm()} className='btn btn-success torneosButton'>Crear Torneo</button>
+        <Link to={`/`}><button onClick={clearToken} className="btn btn-danger juegosButton">Volver</button></Link>
+      </div>:
+      <></>}
+      <div className={problema?"d-none":"containerCentrar"}>
+            <button onClick={() => renderNuevoTorneoForm()} 
+            className='btn btn-success torneosButton'>Crear Torneo</button>
       </div>
 
       {nuevo?
@@ -159,7 +183,7 @@ export function Torneos() {
             segundo={torneo.id_segundoPuesto} tercero={torneo.id_tercerPuesto} equipos={equipos} juegos={juegos}/>
           ))}
         </div>
-        <div className="containerCentrar">
+        <div className={problema?"d-none":"containerCentrar"}>
             <Link to={`/admin`}><button className='btn btn-warning torneosButton'>Volver</button></Link>
         </div>
     </>
