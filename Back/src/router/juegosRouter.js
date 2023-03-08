@@ -1,40 +1,45 @@
+const verificarToken = require('./jwt');
 const express = require('express');
 const router = express();
-
-/* // Librería para encriptar passwords.
-const bcrypt= require('bcrypt');
-// Librería para generar tokens.
-const jwt= require('jsonwebtoken'); */
-
-// Archivo de conexión a la base de datos.
+const jwt = require('jsonwebtoken');
 const mysqlConnection = require('../database');
 
 ///////////////  C.R.U.D. de Juegos  ///////////////
 
 //CREATE de un juego nuevo.
 router.post('/juegos', (req, res) => {
-    const { nombre } = req.body;
-    let query = `INSERT INTO juegos (nombre) VALUES ('${nombre}')`;
-
-    mysqlConnection.query(query, (err, rows) => {
-        if (!err) {
-            res.json({
-                status: true,
-                mensaje: "El juego se creó correctamente."
-            });
-        } else {
-            res.json({
-                status: false,
-                mensaje: "Hubo un error creando el juego. Ver juegosRouter.js."
-            });
+        const { nombre } = req.body;
+        let query = `INSERT INTO juegos (nombre) VALUES ('${nombre}')`;
+    
+        mysqlConnection.query(query, (err, rows) => {
+            if (!err) {
+                res.json({
+                    status: true,
+                    mensaje: "El juego se creó correctamente."
+                });
+            } else {
+                res.json({
+                    status: false,
+                    mensaje: "Hubo un error creando el juego. Ver juegosRouter.js."
+                });
+            }
+        })
         }
-    })
-})
+)
 
 //READ (GET) de todos los juegos.
-router.get('/juegos', (req, res)=>{
-    mysqlConnection.query('SELECT * from juegos', (err, rows)=>{
-        res.json(rows);
+router.get('/juegos', verificarToken, (req, res)=>{
+    jwt.verify(req.token, 'silicon', (error, valido) => {
+        if (error) {
+            res.json({
+                status: false,
+                mensaje: "Problema con sus credenciales, inicie sesión nuevamente."
+            })
+        } else {
+            mysqlConnection.query('SELECT * from juegos', (err, rows)=>{
+                res.json(rows);
+            })
+        }
     })
 });
 

@@ -9,20 +9,32 @@ export async function nuevoJuego(datos) {
         },
         body: JSON.stringify(datos)
     };
-    const response = await fetch(`${API}/juegos`, requestOptions);
-    const data = await response.json();
-    return data;
+    try {
+        const response = await fetch(`${API}/juegos`, requestOptions);
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.log("Error en nuevoJuego() de juegosServices.js: ");
+        console.log(error);
+    }
 } 
 
 //READ de todos los juegos.
 export async function getJuegos() {
+    const token = JSON.parse(localStorage.getItem('token'));
+    const requestOptions = {
+        headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${token}`
+        }
+    }
     try {
-        const response = await fetch(`${API}/juegos`);
+        const response = await fetch(`${API}/juegos`, requestOptions);
         const data = await response.json();
         return data;
     }
     catch (error) {
-        console.log("Error en getJuegos() de services.js: " + error);
+        console.log("Error en getJuegos() de juegosServices.js: " + error);
     }
 }
 
