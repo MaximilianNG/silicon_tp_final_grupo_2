@@ -99,7 +99,7 @@ export function Equipos() {
           <form id="nuevoEquipo" onSubmit={(e) => nuevoEquipo(e)} className={`containerNuevo ${animacion ? "mostrar" : ""}`}>
           <div>
             <label htmlFor="nombreEquipo" className="form-label text-light mb-2">Nombre del equipo</label>
-            <input type="text" className="form-control mb-3" id="nombreEquipo" 
+            <input required type="text" className="form-control mb-3" id="nombreEquipo" 
             aria-describedby="nombreEquipo" ref={nombre_equipo}/>
 
             <label htmlFor="juegoEquipo" className="form-label text-light mb-2">Juego del equipo</label>

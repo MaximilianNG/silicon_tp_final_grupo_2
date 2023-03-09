@@ -299,7 +299,7 @@ export function SponsorCard(props) {
             <form id="editarNombre" onSubmit={(e) => editarSponsorNombre(props.id, e)} className={`editarContainer`}>
               <div>
                 <label htmlFor="nombreSponsor" className="form-label mx-2">Nuevo nombre del sponsor:</label>
-                <input type="text" className="form-control mb-3" id="nombreSponsor" 
+                <input required type="text" className="form-control mb-3" id="nombreSponsor" 
                 aria-describedby="nombreSponsor" ref={nombre_sponsor}/>
               </div>
               <button form="editarNombre" type="submit" className="btn btn-primary">Confirmar</button>

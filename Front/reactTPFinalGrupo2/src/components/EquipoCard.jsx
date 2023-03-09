@@ -114,7 +114,7 @@ export function EquipoCard(props) {
         <form id="editarEquipo" onSubmit={(e) => editarEquipo(id, e)} className={`editarContainer ${animacion ? "mostrar" : ""}`}>
           <div>
             <label htmlFor="nombreEquipo" className="form-label mx-2 mt-2">Nombre del equipo:</label>
-            <input type="text" className="form-control mb-3" id="nombreEquipo" 
+            <input required type="text" className="form-control mb-3" id="nombreEquipo" 
             aria-describedby="nombreEquipo" ref={nombre_equipo}/>
             <label htmlFor="juegoEquipo" className="form-label">Juego del equipo</label>
             <select className="form-select" aria-label="Juegos activos para elegir" ref={juego_equipo}>

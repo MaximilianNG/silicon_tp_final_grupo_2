@@ -100,10 +100,11 @@ export function TorneoCard(props) {
     <div className="card">
         <div className="card-body">
             <h5 className="card-title">{props.nombre}</h5>
+            <hr></hr>
             <p className="card-text">Fecha: {fecha}</p>
-            <p className="card-text">ID: {props.id}</p>
             <p className="card-text">Juego: {juego}</p>
             <p className="card-text">Localidad: {localidad}</p>
+            <hr></hr>
             <p className="card-text"><NombreEquipo equipos={equipos} id={props.primero} posicion={"1"}/></p>
             <p className="card-text"><NombreEquipo equipos={equipos} id={props.segundo} posicion={"2"}/></p>
             <p className="card-text"><NombreEquipo equipos={equipos} id={props.tercero} posicion={"3"}/></p>
@@ -118,11 +119,11 @@ export function TorneoCard(props) {
             <form id="editarTorneo" onSubmit={(e) => editarTorneo(props.id, e)} className={`editarContainer`}>
             <div>
               <label htmlFor="nombreTorneo" className="form-label mb-2 mt-3">Nuevo nombre</label>
-              <input type="text" className="form-control mb-3" id="nombreTorneo" required
+              <input required type="text" className="form-control mb-3" id="nombreTorneo" 
               aria-describedby="nombre del torneo" ref={nombreEd}/>
 
               <label htmlFor="fechaTorneo" className="form-label mb-2">Nueva fecha</label>
-              <input type="date" className="form-control mb-3" id="fechaTorneo" required 
+              <input required type="date" className="form-control mb-3" id="fechaTorneo"  
               aria-describedby="fecha del torneo" ref={fechaEd}/>
   
               <label htmlFor="juegoTorneo" className="form-label mb-2">Juego del torneo</label>

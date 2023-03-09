@@ -1,9 +1,15 @@
 import '../styles/jugadoresCard.css'
 import { useState, useRef } from 'react'
 import * as API from '../services/jugadoresService'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom'
 
 export function JugadoresCard(props) {
+  //Navigate
+  const navigate = useNavigate();
 
+  //Estados
   const [editar, setEditar] = useState(false);
 
   //Referencias
@@ -28,23 +34,29 @@ export function JugadoresCard(props) {
   }
 
   //Utilidades
-
   const estadoJugador = async(id, estado) => {
     const datos_enviar = {
         estado: estado
     };
     const respuesta = await API.estadoJugador(id, datos_enviar)
     respuesta.status?
-    console.log(respuesta.mensaje):
-    console.log(respuesta.mensaje);;
-    window.location.reload(false);
+    toast.success("El estado se cambió exitosamente. Refrescando...", {
+      toastId: "éxito",
+      onClose: () => {
+        navigate(0);
+      }
+    }):
+    toast.warning("Hubo un error cambiando el estado.", {
+      toastId: "error"
+    })
   }
 
   const renderEditarForm = () => {
     setEditar(!editar);
   }
 
-  const editarJugador = async (id) => {
+  const editarJugador = async (id, e) => {
+    e.preventDefault()
     let control = false;
 
     const datos_enviar = {
@@ -63,14 +75,23 @@ export function JugadoresCard(props) {
     }
 
     if (control) {
-      console.log("Completá el formulario.");
-      return
+      toast.warning("Por favor complete todos los campos.", {
+        toastId: "picarón"
+      })
+      return false
+
     } else {
       const respuesta = await (API.editarJugador(id, datos_enviar));
       respuesta.status?
-      console.log(respuesta.mensaje):
-      console.log(respuesta.mensaje);;
-      window.location.reload(false);
+    toast.success("El jugador se editó exitosamente. Refrescando...", {
+      toastId: "éxito",
+      onClose: () => {
+        navigate(0);
+      }
+    }):
+    toast.warning("Hubo un error editando el jugador.", {
+      toastId: "error"
+    })
     }
   }
 
@@ -83,7 +104,6 @@ export function JugadoresCard(props) {
             <p className="card-text">Email: {email}</p>
             <p className="card-text">Localidad: {localidad}</p>
             <p className="card-text">Equipo: {equipo}</p>
-            <p className="card-text">Estado: {estado}</p>
             
         </div>
         <div className="cardBotonesContainer">
@@ -94,25 +114,25 @@ export function JugadoresCard(props) {
         </div>
 
         {editar?
-            <form className='containerEdJugador'>
-              <div>
-        <label htmlFor="nombreJugador" className="form-label mb-2">Nombre</label>
-        <input type="text" className="form-control mb-3" id="edNombreJugador" 
-        aria-describedby="nombreJugador" ref={nombreEd}/>
+        <form id="editarJugador" onSubmit={(e) => editarJugador(id, e)} className='containerEdJugador'>
+          <div>
+            <label htmlFor="nombreJugador" className="form-label mb-2">Nombre</label>
+            <input required type="text" className="form-control mb-3" id="edNombreJugador" 
+            aria-describedby="nombreJugador" ref={nombreEd}/>
       </div>
       <div>
         <label htmlFor="apellidoJugador" className="form-label mb-2">Apellido</label>
-        <input type="text" className="form-control mb-3" id="edApellidoJugador" 
+        <input required type="text" className="form-control mb-3" id="edApellidoJugador" 
         aria-describedby="apellidoJugador" ref={apellidoEd}/>
       </div>
       <div>
         <label htmlFor="nombre_profesional" className="form-label mb-2">Apodo</label>
-        <input type="text" className="form-control mb-3" id="edApodoJugador" 
+        <input required type="text" className="form-control mb-3" id="edApodoJugador" 
         aria-describedby="nombre_profesional" ref={nombre_profesionalEd}/>
       </div>
       <div>
         <label htmlFor="emailJugador" className="form-label mb-2">Email</label>
-        <input type="text" className="form-control mb-3" id="edEmailJugador" 
+        <input required type="email" className="form-control mb-3" id="edEmailJugador" 
         aria-describedby="emailJugador" ref={emailEd}/>
       </div>
       <label htmlFor="localidadJugador" className="form-label mb-2 ">Localidad del jugador</label>
@@ -145,7 +165,7 @@ export function JugadoresCard(props) {
               <option className="dropdown-item" value="8">Kamikaze</option>
               <option className="dropdown-item" value="9">Delta</option>
             </select>
-              <button onClick={() => editarJugador(id)} type="button" className="btn btn-primary">Editar</button>
+              <button form="editarJugador" type="submit" className="btn btn-primary">Editar</button>
             </form>: 
         <></>}
     </div>

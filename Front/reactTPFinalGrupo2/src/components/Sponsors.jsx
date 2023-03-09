@@ -99,7 +99,7 @@ export function Sponsors() {
         <form id="nuevoSponsor" onSubmit={(e) => nuevoSponsor(e)} className={`containerNuevoSponsor`}>
           <div>
             <label htmlFor="nombreSponsor" className="form-label text-light mb-2">Nombre del sponsor</label>
-            <input type="text" className="form-control mb-3" id="nombreSponsor" 
+            <input required type="text" className="form-control mb-3" id="nombreSponsor" 
             aria-describedby="nombreSponsor" ref={nombre_sponsor}/>
           </div>
           <button form="nuevoSponsor" type="submit" className="btn btn-primary">Agregar</button>

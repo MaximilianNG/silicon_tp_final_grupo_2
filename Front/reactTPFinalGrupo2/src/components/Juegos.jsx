@@ -79,6 +79,7 @@ export function Juegos() {
           </div>
           :
       <></>}
+      
       <div className="containerCentrar">
             <button onClick={() => renderNuevoJuegoForm()} 
             className={problema?`d-none`:`btn btn-success juegosButton`}>Nuevo Juego</button>
