@@ -1,21 +1,17 @@
 import { Routes, Route } from 'react-router-dom'
-import { useState, useEffect } from 'react'
-import * as API from '../services/juegosService'
-import {v4 as uuidv4 } from 'uuid'
-import { Button } from 'react-bootstrap';
 import { Login } from './Login'
 import { Admin } from './Admin'
 import { Juegos } from './Juegos'
 import { Torneos } from './Torneos'
 import { Sponsors } from './Sponsors'
-import { Equipos } from './Equipos';
+import { Equipos } from './Equipos'
 import { Jugadores } from './Jugadores'
+import { ToastContainer, Flip, toast } from 'react-toastify';
 import '../styles/app.css'
 
 function App() {
   return (
   <>
-  
   <div className="fullContainer">
     <img src='../imagenes/logotorneo.png' id='Logo' alt='imagen del Logo'></img>
     {/* <p className="display-4 text-light text-center bg-gradient">TP Final Grupo 2</p> */}
@@ -29,21 +25,19 @@ function App() {
       <Route path='/jugadores' element={<Jugadores />}></Route>
     </Routes>
   </div>
-
-{/* 
-  <Button variant="primary">Primary</Button>{' '}
-  <Button variant="secondary">Secondary</Button>{' '}
-  <Button variant="success">Success</Button>{' '}
-  <Button variant="warning">Warning</Button>{' '}
-  <Button variant="danger">Danger</Button>{' '}
-  <Button variant="info">Info</Button>{' '}
-  <Button variant="light">Light</Button>{' '}
-  <Button variant="dark">Dark</Button> <Button variant="link">Link</Button> */}
-  
-{/*   <p>Departamentos: </p>
-  {departamentos.map((departamento) => (
-    <p key={uuidv4()}>ID: {departamento.id}. Nombre: {departamento.nombre}.</p>
-  ))} */}
+  <ToastContainer
+          position="bottom-right"
+          autoClose={1500}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+          transition={Flip}
+          />
   </>
   )
 }
