@@ -4,6 +4,11 @@ import '../styles/admin.css'
 import { Juegos } from './Juegos'
 
 export function Admin() {
+  //Utilidades
+  const clearToken = () => {
+    window.localStorage.removeItem('usuario');
+    window.localStorage.removeItem('token');
+  }
   return (
       <>
         <div className="containerP">
@@ -12,7 +17,7 @@ export function Admin() {
             <Link to={`/torneos`} style={{ textDecoration: 'none' }}><button className='btn btn-primary adminButton'>Torneos</button></Link>
             <Link to={`/sponsors`} style={{ textDecoration: 'none' }}><button className='btn btn-primary adminButton'>Sponsors</button></Link>
             <Link to={`/equipos`} style={{ textDecoration: 'none' }}><button className='btn btn-primary adminButton'>Equipos</button></Link>
-            <Link to={`/`} style={{ textDecoration: 'none' }}><button className='btn btn-danger adminButton'>Salir</button></Link>
+            <Link to={`/`} style={{ textDecoration: 'none' }}><button onClick={clearToken} className='btn btn-danger adminButton'>Salir</button></Link>
         </div>
       </>
   )
