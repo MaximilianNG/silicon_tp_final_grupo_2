@@ -49,7 +49,7 @@ export async function estadoJugador(id, datos) {
 
 
 //UPDATE de un jugador.
-export async function editarJuego(id, datos) {
+export async function editarJugador(id, datos) {
     const requestOptions={
         method: 'PUT',
         headers: {
@@ -57,7 +57,11 @@ export async function editarJuego(id, datos) {
         },
         body: JSON.stringify(datos)
     };
-    const response = await fetch(`${API}/jugadores/${id}`, requestOptions);
-    const data = await response.json();
-    return data;
+    try {
+        const response = await fetch(`${API}/jugadores/${id}`, requestOptions);
+        const data = await response.json();
+        return data;
+    } catch(error) {
+        console.log("Error en  edtiarJugador.js de JugadoresService.js");
+    }
 } 

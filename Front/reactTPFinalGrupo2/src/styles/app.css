@@ -2,3 +2,16 @@
     display: flex;
     flex-direction: column;
 }
+
+#Logo{
+    margin-top: 3px !important;
+
+    margin:auto;
+    width: 30%;
+}
+
+@media only screen and (max-width: 480px) {
+    #Logo {
+      width: 100%;
+    }
+  }

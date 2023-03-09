@@ -64,12 +64,11 @@ router.put('/estadojugador/:id', (req, res)=>{
 });
 
 
-//UPDATE de un jugador nuevo.
+//UPDATE de un jugador.
 router.put('/jugadores/:id', (req, res) => {
     let id = req.params.id;
-    const { nombre } = req.body;
-    let query = `UPDATE jugadores SET nombre='${nombre}' WHERE id=${id}`;
-
+    const { nombre,apellido,nombre_profesional,email,id_localidad,id_equipo } = req.body;
+    let query = `UPDATE jugadores SET nombre='${nombre}', apellido='${apellido}', nombre_profesional='${nombre_profesional}', email='${email}', id_localidad='${id_localidad}', id_equipo='${id_equipo}'  WHERE id=${id}`;
     mysqlConnection.query(query, (err, rows) => {
         if (!err) {
             res.json({

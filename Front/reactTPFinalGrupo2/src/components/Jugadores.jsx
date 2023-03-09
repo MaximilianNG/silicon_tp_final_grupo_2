@@ -8,7 +8,7 @@ import { v4 as uuidv4 } from 'uuid'
 export function Jugadores() {
   const [jugadores, setJugadores] = useState([]);
   const [nuevo, setNuevo] = useState(false);
-  const [animacion, setAnimacion] = useState(false);
+  // const [animacion, setAnimacion] = useState(false);
 
   //Referencias
   const nombre = useRef();

@@ -5,7 +5,14 @@ import * as API from '../services/jugadoresService'
 export function JugadoresCard(props) {
 
   const [editar, setEditar] = useState(false);
-  const nombreJugador = useRef();
+
+  //Referencias
+  const nombreEd = useRef();
+  const apellidoEd = useRef();
+  const nombre_profesionalEd = useRef();
+  const emailEd = useRef();
+  const id_localidadEd = useRef();
+  const id_equipoEd = useRef();
 
   //Constructor
   let nombre = props.nombre;
@@ -31,7 +38,41 @@ export function JugadoresCard(props) {
     console.log(respuesta.mensaje):
     console.log(respuesta.mensaje);;
     window.location.reload(false);
+  }
+
+  const renderEditarForm = () => {
+    setEditar(!editar);
+  }
+
+  const editarJugador = async (id) => {
+    let control = false;
+
+    const datos_enviar = {
+      nombre: nombreEd.current.value,
+      apellido: apellidoEd.current.value,
+      nombre_profesional: nombre_profesionalEd.current.value,
+      email: emailEd.current.value,
+      id_localidad: id_localidadEd.current.value,
+      id_equipo: id_equipoEd.current.value
+    };
+
+    for (const propiedad in datos_enviar) {
+      if (datos_enviar[propiedad] == "0" || datos_enviar[propiedad] == "") {
+        control = true;
+      }
     }
+
+    if (control) {
+      console.log("Completá el formulario.");
+      return
+    } else {
+      const respuesta = await (API.editarJugador(id, datos_enviar));
+      respuesta.status?
+      console.log(respuesta.mensaje):
+      console.log(respuesta.mensaje);;
+      window.location.reload(false);
+    }
+  }
 
   return (
     <div className="card">
@@ -46,20 +87,65 @@ export function JugadoresCard(props) {
             
         </div>
         <div className="cardBotonesContainer">
-            <a href="#" className="btn btn-primary">Editar</a>
+            <button onClick={() => renderEditarForm()} className="btn btn-primary">Editar</button>
             {estado?
             <button onClick={() => estadoJugador(id, "0")} className="btn btn-success">Activo</button>:
             <button onClick={() => estadoJugador(id, "1")} className="btn btn-danger">Inactivo</button>}
         </div>
 
         {editar?
-            <form className={`editarContainer ${animacion ? "mostrar" : ""}`}>
+            <form className='containerEdJugador'>
               <div>
-                <label htmlFor="nombreJugador" className="form-label mx-2">Nuevo nombre del jugador:</label>
-                <input type="text" className="form-control mb-3" id="nombreJuego" 
-                aria-describedby="nombreJuego" ref={nombre}/>
-              </div>
-              <button onClick={() => editarJuego(id)} type="button" className="btn btn-primary">Editar</button>
+        <label htmlFor="nombreJugador" className="form-label mb-2">Nombre</label>
+        <input type="text" className="form-control mb-3" id="edNombreJugador" 
+        aria-describedby="nombreJugador" ref={nombreEd}/>
+      </div>
+      <div>
+        <label htmlFor="apellidoJugador" className="form-label mb-2">Apellido</label>
+        <input type="text" className="form-control mb-3" id="edApellidoJugador" 
+        aria-describedby="apellidoJugador" ref={apellidoEd}/>
+      </div>
+      <div>
+        <label htmlFor="nombre_profesional" className="form-label mb-2">Apodo</label>
+        <input type="text" className="form-control mb-3" id="edApodoJugador" 
+        aria-describedby="nombre_profesional" ref={nombre_profesionalEd}/>
+      </div>
+      <div>
+        <label htmlFor="emailJugador" className="form-label mb-2">Email</label>
+        <input type="text" className="form-control mb-3" id="edEmailJugador" 
+        aria-describedby="emailJugador" ref={emailEd}/>
+      </div>
+      <label htmlFor="localidadJugador" className="form-label mb-2 ">Localidad del jugador</label>
+            <select className="form-select" aria-label="Elegir localidad del torneo" ref={id_localidadEd}>
+              <option className="dropdown-item" value="0">Elija una localidad</option>
+              <option className="dropdown-item" value="1">Posadas</option>
+              <option className="dropdown-item" value="2">Garupá</option>
+              <option className="dropdown-item" value="3">Fachinal</option>
+              <option className="dropdown-item" value="4">Capioví</option>
+              <option className="dropdown-item" value="5">Puerto Rico</option>
+              <option className="dropdown-item" value="6">Garuhapé</option>
+              <option className="dropdown-item" value="7">Oberá</option>
+              <option className="dropdown-item" value="8">Los Helechos</option>
+              <option className="dropdown-item" value="9">Campo Viera</option>
+              <option className="dropdown-item" value="10">Puerto Esperanza</option>
+              <option className="dropdown-item" value="11">Puerto Iguazú</option>
+              <option className="dropdown-item" value="12">Puerto Libertad</option>
+            </select>
+
+        <label htmlFor="equipoJugador" className="form-label mb-2 mt-3">Equipo del jugador</label>
+            <select className="form-select" aria-label="Elegir equipo del jugador" ref={id_equipoEd}>
+              <option className="dropdown-item" value="0">Elija un equipo</option>
+              <option className="dropdown-item" value="1">Banzai</option>
+              <option className="dropdown-item" value="2">Crimson</option>
+              <option className="dropdown-item" value="3">Toxic</option>
+              <option className="dropdown-item" value="4">Gecko</option>
+              <option className="dropdown-item" value="5">Horad</option>
+              <option className="dropdown-item" value="6">Wasps</option>
+              <option className="dropdown-item" value="7">Silver</option>
+              <option className="dropdown-item" value="8">Kamikaze</option>
+              <option className="dropdown-item" value="9">Delta</option>
+            </select>
+              <button onClick={() => editarJugador(id)} type="button" className="btn btn-primary">Editar</button>
             </form>: 
         <></>}
     </div>
