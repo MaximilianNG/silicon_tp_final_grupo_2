@@ -17,7 +17,7 @@ function App() {
   return (
   <>
   <div className="fullContainer">
-    <p className="display-4 text-light text-center bg-gradient">TP Final Grupo 2</p>
+    <p className="display-4 text-light text-center bg-gradient">Silicon Torneos</p>
       <Routes>
         <Route path='/' element={<Login />}></Route>
         <Route path='/admin' element={<Admin />}></Route>

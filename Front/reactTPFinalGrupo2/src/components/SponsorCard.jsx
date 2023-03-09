@@ -2,9 +2,15 @@ import '../styles/sponsorCard.css'
 import { useState, useEffect, useRef } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import * as API from '../services/sponsorsService'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom'
 
 
 export function SponsorCard(props) {
+  //Navigate
+  const navigate = useNavigate();
+
   //Estados
   const [editarNombre, setEditarNombre] = useState(false);
   const [editarEquipos, setEditarEquipos] = useState(false);
@@ -31,9 +37,15 @@ export function SponsorCard(props) {
     };
     const respuesta = await API.estadoSponsor(id, datos_enviar)
     respuesta.status?
-    console.log(respuesta.mensaje):
-    console.log(respuesta.mensaje);;
-    window.location.reload(false);
+    toast.success("El estado se cambió exitosamente. Refrescando...", {
+      toastId: "éxito",
+      onClose: () => {
+        navigate(0);
+      }
+    }):
+    toast.warning("Hubo un error cambiando el estado.", {
+      toastId: "error"
+    })
     }
 
   ////////////////////////////////
@@ -44,16 +56,29 @@ export function SponsorCard(props) {
 
   ///////////////////////////////
 
-  const editarSponsorNombre = async (id) => {
+  const editarSponsorNombre = async (id, e) => {
+    e.preventDefault()
     const nombre = nombre_sponsor.current.value;
+    if (nombre == props.nombre) {
+      toast.warning("El sponsor ya tiene ese nombre.", {
+        toastId: "repetido"
+      })
+      return false
+    }
     const datos_enviar = {
       nombre: nombre
     };
     const respuesta = await (API.editarSponsorNombre(id, datos_enviar));
     respuesta.status?
-    console.log(respuesta.mensaje):
-    console.log(respuesta.mensaje);
-    window.location.reload(false);
+    toast.success("El nombre del sponsor se cambió exitosamente. Refrescando...", {
+      toastId: "éxito",
+      onClose: () => {
+        navigate(0);
+      }
+    }):
+    toast.warning("Hubo un error cambiando el nombre del sponsor.", {
+      toastId: "error"
+    })
   }
 
   ////////////////////////////////
@@ -68,9 +93,12 @@ export function SponsorCard(props) {
 
   ////////////////////////////////
 
-  const renderEditarEquiposAgregarOQquitarForm = () => {
+  const renderEditarEquiposAgregarOQquitarForm = (e) => {
+    e.preventDefault()
     if (agregar_o_quitar_equipos.current.value == 0) {
-      console.log("Elija agregar o quitar.");
+      toast.warning("Elija una de las opciones.", {
+        toastId: "error"
+      })
       return
     }
     if (agregar_o_quitar_equipos.current.value == 1) {
@@ -90,9 +118,12 @@ export function SponsorCard(props) {
 
   ////////////////////////////////
 
-  const renderEditarTorneosAgregarOQquitarForm = () => {
+  const renderEditarTorneosAgregarOQquitarForm = (e) => {
+    e.preventDefault()
     if (agregar_o_quitar_torneos.current.value == 0) {
-      console.log("Elija agregar o quitar.");
+      toast.warning("Elija una de las opciones.", {
+        toastId: "error"
+      })
       return
     }
     if (agregar_o_quitar_torneos.current.value == 1) {
@@ -112,8 +143,12 @@ export function SponsorCard(props) {
 
   ////////////////////////////////
 
-  const agregarEquipoSponsoreado = async (id) => {
+  const agregarEquipoSponsoreado = async (id, e) => {
+    e.preventDefault()
     let control = false;
+    if (id_equipo_agregar.current.value == 0) {
+      return false;
+    }
     const datos_enviar = {
       id_equipo: id_equipo_agregar.current.value
     };
@@ -125,20 +160,29 @@ export function SponsorCard(props) {
     }
 
     if (control) {
-      console.log("Completá el formulario y portate bien.");
+      toast.warning("Por favor, complete todos los campos del formulario.", {
+        toastId: "error"
+      })
       return
     } else {
       const respuesta = await API.nuevoEquipoSponsoreado(id, datos_enviar);
       respuesta.status?
-      console.log(respuesta.mensaje):
-      console.log(respuesta.mensaje);;
-      window.location.reload(false);
+      toast.success("El equipo sponsoreado se agregó exitosamente. Refrescando...", {
+        toastId: "éxito",
+        onClose: () => {
+          navigate(0);
+        }
+      }):
+      toast.warning("Hubo un error agregando el equipo sponsoreado.", {
+        toastId: "error"
+      })
     }
   }
 
   //////////////////////////
 
-  const quitarEquipoSponsoreado = async (id) => {
+  const quitarEquipoSponsoreado = async (id, e) => {
+    e.preventDefault()
     let control = false;
     const datos_enviar = {
       id_equipo: id_equipo_quitar.current.value
@@ -151,20 +195,29 @@ export function SponsorCard(props) {
     }
 
     if (control) {
-      console.log("Completá el formulario y portate bien.");
+      toast.warning("Por favor complete todos los campos del formulario.", {
+        toastId: "error"
+      })
       return
     } else {
       const respuesta = await API.quitarEquipoSponsoreado(id, datos_enviar);
       respuesta.status?
-      console.log(respuesta.mensaje):
-      console.log(respuesta.mensaje);;
-      window.location.reload(false);
+      toast.success("El equipo sponsoreado se quitó exitosamente. Refrescando...", {
+        toastId: "éxito",
+        onClose: () => {
+          navigate(0);
+        }
+      }):
+      toast.warning("Hubo un error quitando el equipo sponsoreado", {
+        toastId: "error"
+      })
     }
   }
 
   //////////////////////////
 
-  const agregarTorneoSponsoreado = async (id) => {
+  const agregarTorneoSponsoreado = async (id, e) => {
+    e.preventDefault()
     let control = false;
     const datos_enviar = {
       id_torneo: id_torneo_agregar.current.value
@@ -177,20 +230,29 @@ export function SponsorCard(props) {
     }
 
     if (control) {
-      console.log("Completá el formulario y portate bien.");
+      toast.warning("Por favor complete todos los campos del formulario.", {
+        toastId: "error"
+      })
       return
     } else {
       const respuesta = await API.nuevoTorneoSponsoreado(id, datos_enviar);
       respuesta.status?
-      console.log(respuesta.mensaje):
-      console.log(respuesta.mensaje);;
-      window.location.reload(false);
+      toast.success("El torneo sponsoreado se agregó exitosamente. Refrescando...", {
+        toastId: "éxito",
+        onClose: () => {
+          navigate(0);
+        }
+      }):
+      toast.warning("Hubo un error agregando el torneo sponsoreado.", {
+        toastId: "error"
+      })
     }
   }
 
   //////////////////////////
 
-  const quitarTorneoSponsoreado = async (id) => {
+  const quitarTorneoSponsoreado = async (id, e) => {
+    e.preventDefault()
     let control = false;
     const datos_enviar = {
       id_torneo: id_torneo_quitar.current.value
@@ -203,14 +265,22 @@ export function SponsorCard(props) {
     }
 
     if (control) {
-      console.log("Completá el formulario y portate bien.");
+      toast.warning("Por favor complete todos los campos del formulario.", {
+        toastId: "error"
+      })
       return
     } else {
       const respuesta = await API.quitarTorneoSponsoreado(id, datos_enviar);
       respuesta.status?
-      console.log(respuesta.mensaje):
-      console.log(respuesta.mensaje);;
-      window.location.reload(false);
+      toast.success("El torneo sponsoreado se quitó exitosamente. Refrescando...", {
+        toastId: "éxito",
+        onClose: () => {
+          navigate(0);
+        }
+      }):
+      toast.warning("Hubo un error quitando el torneo sponsoreado.", {
+        toastId: "error"
+      })
     }
   }
 
@@ -226,13 +296,13 @@ export function SponsorCard(props) {
           </div>
 
           {editarNombre?
-            <form className={`editarContainer`}>
+            <form id="editarNombre" onSubmit={(e) => editarSponsorNombre(props.id, e)} className={`editarContainer`}>
               <div>
                 <label htmlFor="nombreSponsor" className="form-label mx-2">Nuevo nombre del sponsor:</label>
                 <input type="text" className="form-control mb-3" id="nombreSponsor" 
                 aria-describedby="nombreSponsor" ref={nombre_sponsor}/>
               </div>
-              <button onClick={() => editarSponsorNombre(props.id)} type="button" className="btn btn-primary">Confirmar</button>
+              <button form="editarNombre" type="submit" className="btn btn-primary">Confirmar</button>
             </form>: 
             <></>}
           <hr className='bg-danger border-5 border-top border-dark'></hr>
@@ -251,20 +321,20 @@ export function SponsorCard(props) {
             </div>
 
             {editarEquipos?
-            <form className={`editarContainer`}>
+            <form id="editarEquipos" onSubmit={(e) => renderEditarEquiposAgregarOQquitarForm(e)} className={`editarContainer`}>
               <label htmlFor="agregarOQuitar" className="form-label my-2 fw-bold">Elija una opción:</label>
               <select className="form-select" aria-label="Agregar o quitar equipos" ref={agregar_o_quitar_equipos}>
                 <option className="dropdown-item" value="0">¿Agregar o quitar un equipo?</option>
                 <option className='dropdown-item' value="1">Agregar</option>
                 <option className='dropdown-item' value="2">Quitar</option>
               </select>
-              <button onClick={renderEditarEquiposAgregarOQquitarForm} type="button" className="btn btn-light mt-3" ref={bot_AOQ}>Siguiente</button>
+              <button form="editarEquipos" type="submit" className="btn btn-light mt-3" ref={bot_AOQ}>Siguiente</button>
             </form>
             : 
             <></>}
 
             {editarEquiposAgregar?
-            <form className="editarContainer pt-3">
+            <form id="editarEquiposAgregar" onSubmit={(e) => agregarEquipoSponsoreado(props.id, e)} className="editarContainer pt-3">
               <p className='fw-bold'>Agregar un equipo:</p>
               <select className="form-select mt-2" aria-label="Equipos para agregar" ref={id_equipo_agregar}>
                   <option className="dropdown-item" value="0">Elija un equipo</option>
@@ -276,13 +346,13 @@ export function SponsorCard(props) {
                     }
                     })}
               </select>
-              <button onClick={() => agregarEquipoSponsoreado(props.id)} type="button" className="btn btn-success mt-3">Agregar</button>
+              <button form="editarEquiposAgregar" type="submit" className="btn btn-success mt-3">Agregar</button>
             </form>
             :
             <></>}
 
             {editarEquiposQuitar?
-            <form className="editarContainer pt-3">
+            <form id="editarEquiposQuitar" onSubmit={(e) => quitarEquipoSponsoreado(props.id, e)} className="editarContainer pt-3">
             <p className='fw-bold'>Quitar un equipo:</p>
             <select className="form-select" aria-label="Equipos para quitar" ref={id_equipo_quitar}>
                 <option className="dropdown-item" value="0">Elija un equipo</option>
@@ -294,7 +364,7 @@ export function SponsorCard(props) {
                   }
                   })}
             </select>
-            <button onClick={() => quitarEquipoSponsoreado(props.id)} type="button" className="btn btn-danger mt-3">Quitar</button>
+            <button form="editarEquiposQuitar" type="submit" className="btn btn-danger mt-3">Quitar</button>
           </form>
             :
             <></>}
@@ -312,20 +382,20 @@ export function SponsorCard(props) {
           </div>
 
           {editarTorneos?
-            <form className={`editarContainer`}>
+            <form id="editarTorneos" onSubmit={(e) => renderEditarTorneosAgregarOQquitarForm(e)} className={`editarContainer`}>
               <label htmlFor="agregarOQuitar" className="form-label my-2 fw-bold">Elija una opción:</label>
               <select className="form-select" aria-label="Agregar o quitar torneos" ref={agregar_o_quitar_torneos}>
                 <option className="dropdown-item" value="0">¿Agregar o quitar un torneo?</option>
                 <option className='dropdown-item' value="1">Agregar</option>
                 <option className='dropdown-item' value="2">Quitar</option>
               </select>
-              <button onClick={renderEditarTorneosAgregarOQquitarForm} type="button" className="btn btn-light mt-3" ref={bot_AOQ}>Siguiente</button>
+              <button form="editarTorneos" type="submit" className="btn btn-light mt-3" ref={bot_AOQ}>Siguiente</button>
             </form>
             : 
             <></>}
 
           {editarTorneosAgregar?
-            <form className="editarContainer pt-3">
+            <form id="editarTorneosAgregar" onSubmit={(e) => agregarTorneoSponsoreado(props.id, e)} className="editarContainer pt-3">
               <p className='fw-bold'>Agregar un torneo:</p>
               <select className="form-select mt-2" aria-label="Torneos para agregar" ref={id_torneo_agregar}>
                   <option className="dropdown-item" value="0">Elija un torneo</option>
@@ -337,13 +407,13 @@ export function SponsorCard(props) {
                     }
                     })}
               </select>
-              <button onClick={() => agregarTorneoSponsoreado(props.id)} type="button" className="btn btn-success mt-3">Agregar</button>
+              <button form="editarTorneosAgregar" type="submit" className="btn btn-success mt-3">Agregar</button>
             </form>
             :
             <></>}
 
             {editarTorneosQuitar?
-            <form className="editarContainer pt-3">
+            <form id="editarTorneosQuitar" onSubmit={(e) => quitarTorneoSponsoreado(props.id, e)} className="editarContainer pt-3">
             <p className='fw-bold'>Quitar un torneo:</p>
             <select className="form-select" aria-label="Torneos para quitar" ref={id_torneo_quitar}>
                 <option className="dropdown-item" value="0">Elija un torneo</option>
@@ -355,7 +425,7 @@ export function SponsorCard(props) {
                   }
                   })}
             </select>
-            <button onClick={() => quitarTorneoSponsoreado(props.id)} type="button" className="btn btn-danger mt-3">Quitar</button>
+            <button form="editarTorneosQuitar" type="submit" className="btn btn-danger mt-3">Quitar</button>
           </form>
             :
             <></>}

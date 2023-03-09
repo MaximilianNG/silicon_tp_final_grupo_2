@@ -31,7 +31,6 @@ router.post('/torneos', (req, res) => {
 router.get('/torneos', verificarToken, (req, res)=>{
     jwt.verify(req.token, 'silicon', (error, valido) => {
         if (error) {
-            console.log("Error verificando.");
             res.json({
                 status: false,
                 mensaje: "Problema con sus credenciales, inicie sesión nuevamente."
