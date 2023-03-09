@@ -16,8 +16,15 @@ export async function nuevoEquipo(datos) {
 
 //READ de todos los equipos.
 export async function getEquipos() {
+    const token = JSON.parse(localStorage.getItem('token'));
+    const requestOptions = {
+        headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${token}`
+        }
+    }
     try {
-        const response = await fetch(`${API}/equipos`);
+        const response = await fetch(`${API}/equipos`, requestOptions);
         const data = await response.json();
         return data;
     }

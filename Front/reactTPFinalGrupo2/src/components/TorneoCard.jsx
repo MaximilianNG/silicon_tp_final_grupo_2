@@ -3,6 +3,9 @@ import { useState, useEffect, useRef } from 'react'
 import * as API from '../services/torneosService'
 import { NombreEquipo } from './NombreEquipo'
 import { v4 as uuidv4 } from 'uuid'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom'
 
 export function TorneoCard(props) {
   //Constructor
@@ -28,6 +31,9 @@ export function TorneoCard(props) {
   //Estados
   const [editar, setEditar] = useState(false)
 
+  //Navigate
+  const navigate = useNavigate();
+
   //Utilidades
   const estadoTorneo = async(id, estado) => {
     const datos_enviar = {
@@ -35,16 +41,23 @@ export function TorneoCard(props) {
     };
     const respuesta = await API.estadoTorneo(props.id, datos_enviar)
     respuesta.status?
-    console.log(respuesta.mensaje):
-    console.log(respuesta.mensaje);;
-    window.location.reload(false);
+    toast.success("El estado se cambió exitosamente. Refrescando...", {
+      toastId: "éxito",
+      onClose: () => {
+        navigate(0);
+      }
+    }):
+    toast.warning("Hubo un error cambiando el estado.", {
+      toastId: "error"
+    })
     }
 
   const renderEditarForm = () => {
     setEditar(!editar);
   }
 
-  const editarTorneo = async (id) => {
+  const editarTorneo = async (id, e) => {
+    e.preventDefault();
     let control = false;
 
     const datos_enviar = {
@@ -64,14 +77,22 @@ export function TorneoCard(props) {
     }
 
     if (control) {
-      console.log("Completá el formulario y portate bien.");
+      toast.warning("Debe completar el formulario para mandarlo.", {
+        toastId: "error"
+      })
       return
     } else {
       const respuesta = await (API.editarTorneo(id, datos_enviar));
       respuesta.status?
-      console.log(respuesta.mensaje):
-      console.log(respuesta.mensaje);;
-      window.location.reload(false);
+      toast.success("El torneo se editó exitosamente. Refrescando...", {
+        toastId: "éxito",
+        onClose: () => {
+          navigate(0);
+        }
+      }):
+      toast.warning("Hubo un error editando el torneo.", {
+        toastId: "error"
+      })
     }
   }
 
@@ -94,18 +115,18 @@ export function TorneoCard(props) {
             <button onClick={() => estadoTorneo(props.id, "1")} className="btn btn-danger">Inactivo</button>}
         </div>
         {editar?
-            <form className={`editarContainer`}>
+            <form id="editarTorneo" onSubmit={(e) => editarTorneo(props.id, e)} className={`editarContainer`}>
             <div>
               <label htmlFor="nombreTorneo" className="form-label mb-2 mt-3">Nuevo nombre</label>
-              <input type="text" className="form-control mb-3" id="nombreTorneo" 
+              <input type="text" className="form-control mb-3" id="nombreTorneo" required
               aria-describedby="nombre del torneo" ref={nombreEd}/>
 
               <label htmlFor="fechaTorneo" className="form-label mb-2">Nueva fecha</label>
-              <input type="date" className="form-control mb-3" id="fechaTorneo" 
+              <input type="date" className="form-control mb-3" id="fechaTorneo" required 
               aria-describedby="fecha del torneo" ref={fechaEd}/>
   
               <label htmlFor="juegoTorneo" className="form-label mb-2">Juego del torneo</label>
-              <select className="form-select" aria-label="Juegos activos para elegir" ref={id_juego}>
+              <select required className="form-select" aria-label="Juegos activos para elegir" ref={id_juego}>
                 <option className="dropdown-item" value="0">Elija un juego</option>
                 {juegos.map((juego) => {
                   if (juego.estado != 0) {
@@ -117,7 +138,7 @@ export function TorneoCard(props) {
               </select>
   
               <label htmlFor="localidadTorneo" className="form-label mb-2 mt-3">Localidad del torneo</label>
-              <select className="form-select" aria-label="Elegir localidad del torneo" ref={id_localidad}>
+              <select required className="form-select" aria-label="Elegir localidad del torneo" ref={id_localidad}>
                 <option className="dropdown-item" value="0">Elija una localidad</option>
                 <option className="dropdown-item" value="1">Posadas</option>
                 <option className="dropdown-item" value="2">Garupá</option>
@@ -134,7 +155,7 @@ export function TorneoCard(props) {
               </select>
   
               <label htmlFor="primerPuesto" className="form-label mb-2 mt-3">Primer puesto</label>
-              <select className="form-select" aria-label="Equipos activos para elegir primer puesto" ref={id_primerPuesto}>
+              <select required className="form-select" aria-label="Equipos activos para elegir primer puesto" ref={id_primerPuesto}>
                 <option className="dropdown-item" value="0">Elija el equipo del primer puesto</option>
                 {equipos.map((equipo) => {
                   if (equipo.estado != 0) {
@@ -146,7 +167,7 @@ export function TorneoCard(props) {
               </select>
   
               <label htmlFor="segundoPuesto" className="form-label mb-2 mt-3">Segundo puesto</label>
-              <select className="form-select" aria-label="Equipos activos para elegir segundo puesto" ref={id_segundoPuesto}>
+              <select required className="form-select" aria-label="Equipos activos para elegir segundo puesto" ref={id_segundoPuesto}>
                 <option className="dropdown-item" value="0">Elija el equipo del segundo puesto</option>
                 {equipos.map((equipo) => {
                   if (equipo.estado != 0) {
@@ -158,7 +179,7 @@ export function TorneoCard(props) {
               </select>
   
               <label htmlFor="tercerPuesto" className="form-label mt-3">Tercer puesto</label>
-              <select className="form-select" aria-label="Equipos activos para elegir tercer puesto" ref={id_tercerPuesto}>
+              <select required className="form-select" aria-label="Equipos activos para elegir tercer puesto" ref={id_tercerPuesto}>
                 <option className="dropdown-item" value="0">Elija el equipo del tercer puesto</option>
                 {equipos.map((equipo) => {
                   if (equipo.estado != 0) {
@@ -169,7 +190,7 @@ export function TorneoCard(props) {
                   })}
               </select>
             </div>
-            <button onClick={() => editarTorneo(props.id)} type="button" className="btn btn-primary mt-3">Confirmar edición</button>
+            <button type="submit" className="btn btn-primary mt-3">Confirmar edición</button>
           </form>: 
           <></>}
     </div>

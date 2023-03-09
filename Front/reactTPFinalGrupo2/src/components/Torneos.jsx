@@ -6,13 +6,20 @@ import * as API from '../services/torneosService'
 import * as APIJuegos from '../services/juegosService'
 import * as APIEquipos from '../services/equiposService'
 import { v4 as uuidv4 } from 'uuid'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom'
 
 export function Torneos() {
+  //Navigate
+  const navigate = useNavigate();
+
   //Estados
   const [torneos, setTorneos] = useState([]);
   const [juegos, setJuegos] = useState([]);
   const [equipos, setEquipos] = useState([]);
   const [nuevo, setNuevo] = useState(false);
+  const [problema, setProblema] = useState(false);
 
   //Referencias
   const nombre = useRef();
@@ -25,13 +32,24 @@ export function Torneos() {
 
   //Effect
   useEffect(() => {
-    API.getTorneos().then(setTorneos);
+    API.getTorneos().then((datos) => {
+      if (datos.status == undefined) {
+        setTorneos(datos);
+      } else if (datos.status == false) {
+        toast.error("Problema de autenticación, haga click en volver.", {
+          toastId: "problema",
+          autoClose: 6000
+        });
+        setProblema(true);
+      }
+    });
     APIJuegos.getJuegos().then(setJuegos);
     APIEquipos.getEquipos().then(setEquipos);
   }, [])
 
   //Utilidades
-  const nuevoTorneo = async () => {
+  const nuevoTorneo = async (e) => {
+    e.preventDefault();
     let control = false;
     const datos_enviar = {
       nombre: nombre.current.value,
@@ -50,14 +68,22 @@ export function Torneos() {
     }
 
     if (control) {
-      console.log("Completá el formulario y portate bien.");
+      toast.warning("Debe completar el formulario para mandarlo.", {
+        toastId: "error"
+      })
       return
     } else {
       const respuesta = await API.nuevoTorneo(datos_enviar);
       respuesta.status?
-      console.log(respuesta.mensaje):
-      console.log(respuesta.mensaje);;
-      window.location.reload(false);
+      toast.success("El torneo se creó exitosamente. Refrescando...", {
+        toastId: "éxito",
+        onClose: () => {
+          navigate(0);
+        }
+      }):
+      toast.warning("Hubo un error creando el torneo.", {
+        toastId: "error"
+      })
     }
 
   }
@@ -66,25 +92,36 @@ export function Torneos() {
     setNuevo(!nuevo);
   }
 
+  const clearToken = () => {
+    window.localStorage.removeItem('usuario');
+    window.localStorage.removeItem('token');
+    }
+
   return (
     <>
+    {problema?
       <div className="containerCentrar">
-            <button onClick={() => renderNuevoTorneoForm()} className='btn btn-success torneosButton'>Crear Torneo</button>
+        <Link to={`/`}><button onClick={clearToken} className="btn btn-danger juegosButton">Volver</button></Link>
+      </div>:
+      <></>}
+      <div className={problema?"d-none":"containerCentrar"}>
+            <button onClick={() => renderNuevoTorneoForm()} 
+            className='btn btn-success torneosButton'>Crear Torneo</button>
       </div>
 
       {nuevo?
-          <form className={`containerNuevoTorneo`}>
+          <form id="nuevoTorneo" className={`containerNuevoTorneo`} onSubmit={(e) => nuevoTorneo(e)}>
           <div>
             <label htmlFor="nombreTorneo" className="form-label text-light mb-2">Nombre</label>
-            <input type="text" className="form-control mb-3" id="nombreTorneo" 
+            <input required type="text" className="form-control mb-3" id="nombreTorneo" 
             aria-describedby="nombre del torneo" ref={nombre}/>
 
             <label htmlFor="fechaTorneo" className="form-label text-light mb-2">Fecha</label>
-            <input type="date" className="form-control mb-3" id="fechaTorneo" 
+            <input required type="date" className="form-control mb-3" id="fechaTorneo" 
             aria-describedby="fecha del torneo" ref={fecha}/>
 
             <label htmlFor="juegoTorneo" className="form-label text-light mb-2">Juego del torneo</label>
-            <select className="form-select" aria-label="Juegos activos para elegir" ref={id_juego}>
+            <select required className="form-select" aria-label="Juegos activos para elegir" ref={id_juego}>
               <option className="dropdown-item" value="0">Elija un juego</option>
               {juegos.map((juego) => {
                 if (juego.estado != 0) {
@@ -96,7 +133,7 @@ export function Torneos() {
             </select>
 
             <label htmlFor="localidadTorneo" className="form-label text-light mb-2 mt-4">Localidad del torneo</label>
-            <select className="form-select" aria-label="Elegir localidad del torneo" ref={id_localidad}>
+            <select required className="form-select" aria-label="Elegir localidad del torneo" ref={id_localidad}>
               <option className="dropdown-item" value="0">Elija una localidad</option>
               <option className="dropdown-item" value="1">Posadas</option>
               <option className="dropdown-item" value="2">Garupá</option>
@@ -113,7 +150,7 @@ export function Torneos() {
             </select>
 
             <label htmlFor="primerPuesto" className="form-label text-light mb-2 mt-4">Primer puesto</label>
-            <select className="form-select" aria-label="Equipos activos para elegir primer puesto" ref={id_primerPuesto}>
+            <select required className="form-select" aria-label="Equipos activos para elegir primer puesto" ref={id_primerPuesto}>
               <option className="dropdown-item" value="0">Elija el equipo del primer puesto</option>
               {equipos.map((equipo) => {
                 if (equipo.estado != 0) {
@@ -125,7 +162,7 @@ export function Torneos() {
             </select>
 
             <label htmlFor="segundoPuesto" className="form-label text-light mb-2 mt-4">Segundo puesto</label>
-            <select className="form-select" aria-label="Equipos activos para elegir segundo puesto" ref={id_segundoPuesto}>
+            <select required className="form-select" aria-label="Equipos activos para elegir segundo puesto" ref={id_segundoPuesto}>
               <option className="dropdown-item" value="0">Elija el equipo del segundo puesto</option>
               {equipos.map((equipo) => {
                 if (equipo.estado != 0) {
@@ -137,7 +174,7 @@ export function Torneos() {
             </select>
 
             <label htmlFor="tercerPuesto" className="form-label text-light mb-2 mt-4">Tercer puesto</label>
-            <select className="form-select" aria-label="Equipos activos para elegir tercer puesto" ref={id_tercerPuesto}>
+            <select required className="form-select" aria-label="Equipos activos para elegir tercer puesto" ref={id_tercerPuesto}>
               <option className="dropdown-item" value="0">Elija el equipo del tercer puesto</option>
               {equipos.map((equipo) => {
                 if (equipo.estado != 0) {
@@ -148,7 +185,7 @@ export function Torneos() {
                 })}
             </select>
           </div>
-          <button onClick={() => nuevoTorneo()} type="button" className="btn btn-primary mt-5">Agregar</button>
+          <button type="submit" className="btn btn-primary mt-5">Agregar</button>
         </form>
           :<></>}
 
@@ -159,7 +196,7 @@ export function Torneos() {
             segundo={torneo.id_segundoPuesto} tercero={torneo.id_tercerPuesto} equipos={equipos} juegos={juegos}/>
           ))}
         </div>
-        <div className="containerCentrar">
+        <div className={problema?"d-none":"containerCentrar"}>
             <Link to={`/admin`}><button className='btn btn-warning torneosButton'>Volver</button></Link>
         </div>
     </>

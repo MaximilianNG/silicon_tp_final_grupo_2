@@ -16,8 +16,15 @@ export async function nuevoTorneo(datos) {
 
 //READ de todos los torneos.
 export async function getTorneos() {
+    const token = JSON.parse(localStorage.getItem('token'));
+    const requestOptions = {
+        headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${token}`
+        }
+    }
     try {
-        const response = await fetch(`${API}/torneos`);
+        const response = await fetch(`${API}/torneos`, requestOptions);
         const data = await response.json();
         return data;
     }
