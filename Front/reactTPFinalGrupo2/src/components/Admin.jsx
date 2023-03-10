@@ -1,13 +1,10 @@
 import { Link } from 'react-router-dom'
 import '../styles/reset.css'
 import '../styles/admin.css'
-<<<<<<< HEAD
-=======
 import { Juegos } from './Juegos'
 import { useEffect, useState } from 'react'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
->>>>>>> 4261e4be83ffbd8bc2119408a945409320a5c9fa
 
 export function Admin() {
   //Estados
@@ -33,7 +30,6 @@ export function Admin() {
   }
   return (
       <>
-<<<<<<< HEAD
         <div className="containerP">
 
         <header className="header">
@@ -132,14 +128,6 @@ export function Admin() {
         
     </footer> */}
 {/* 
-=======
-      {problema?
-                <div className="containerCentrar">
-                <Link to={`/`}><button onClick={clearToken} className="btn btn-danger juegosButton">Volver</button></Link>
-            </div>:
-            <></>}
-        <div className={problema?`d-none`:`containerP`}>
->>>>>>> 4261e4be83ffbd8bc2119408a945409320a5c9fa
             <Link to={`/juegos`} style={{ textDecoration: 'none' }}><button className='btn btn-primary adminButton'>Juegos</button></Link>
             <Link to={`/jugadores`} style={{ textDecoration: 'none' }}><button className='btn btn-primary adminButton'>Jugadores</button></Link>
             <Link to={`/torneos`} style={{ textDecoration: 'none' }}><button className='btn btn-primary adminButton'>Torneos</button></Link>
