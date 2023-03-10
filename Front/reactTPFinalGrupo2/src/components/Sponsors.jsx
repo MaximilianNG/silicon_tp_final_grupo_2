@@ -94,6 +94,7 @@ export function Sponsors() {
 
       <div className={problema?"d-none":"containerCentrar"}>
             <button onClick={renderNuevoSponsorForm} className='btn btn-success juegosButton'>Crear Sponsor</button>
+            <Link to={`/admin`}><button className='btn btn-warning sponsorsButton'>Volver</button></Link>
       </div>
       {nuevo?
         <form id="nuevoSponsor" onSubmit={(e) => nuevoSponsor(e)} className={`containerNuevoSponsor`}>
@@ -108,13 +109,15 @@ export function Sponsors() {
       <></>
       }
         <div className="containerSponsors">
-           {sponsors.map((sponsor) => (
-            <SponsorCard key={uuidv4()} id={sponsor.id} nombre={sponsor.nombre} equipos={sponsor.equipos_sponsoreados}
-            torneos={sponsor.torneos_sponsoreados} estado={sponsor.estado} equiposT={equiposT} torneosT={torneosT}/>
-          )) } 
-        </div>
-        <div className={problema?"d-none":"containerCentrar"}>
-            <Link to={`/admin`}><button className='btn btn-warning sponsorsButton'>Volver</button></Link>
+          <div className="container">
+            <div className="row gy-3">
+            {sponsors.map((sponsor) => (
+              <SponsorCard key={uuidv4()} id={sponsor.id} nombre={sponsor.nombre} equipos={sponsor.equipos_sponsoreados}
+              torneos={sponsor.torneos_sponsoreados} estado={sponsor.estado} equiposT={equiposT} torneosT={torneosT}/>
+            )) }
+            </div>
+          </div>
+
         </div>
       </>
   )
