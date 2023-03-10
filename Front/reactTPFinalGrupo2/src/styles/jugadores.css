@@ -1,27 +1,28 @@
-.containerSponsors {
+.containerJugadores {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
     justify-content: center;
 }
 
-.sponsorsButton {
+.jugadoresButton {
     min-width: 8rem;
     min-height: 5rem;
 }
 
-.containerCentrar {
+.containerCentrarJugadores {
     display: flex;
     justify-content: center;
     margin: 1rem 0;
 }
 
-.containerNuevoSponsor {
+
+.containerNuevoJugador {
     opacity: 1;
     display: flex;
     flex-direction: column;
     margin: 0 2rem 1rem 2rem;
     padding: 1rem;
     border: 5px ridge #7c4792;
-    transition: opacity 0.25s ease-in;
 }
+

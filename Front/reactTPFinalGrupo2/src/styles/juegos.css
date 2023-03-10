@@ -5,6 +5,20 @@
     justify-content: center;
 }
 
+.containerNuevo {
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    margin: 0 2rem 1rem 2rem;
+    padding: 1rem;
+    border: 5px ridge #7c4792;
+    transition: opacity 0.25s ease-in;
+}
+
+.mostrar {
+    opacity: 1;
+}
+
 .juegosButton {
     min-width: 8rem;
     min-height: 5rem;
