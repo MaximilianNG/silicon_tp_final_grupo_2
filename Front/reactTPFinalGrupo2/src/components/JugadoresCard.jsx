@@ -165,7 +165,7 @@ export function JugadoresCard(props) {
               <option className="dropdown-item" value="8">Kamikaze</option>
               <option className="dropdown-item" value="9">Delta</option>
             </select>
-              <button form="editarJugador" type="submit" className="btn btn-primary">Editar</button>
+              <button id='botonEditar' onClick={() => editarJugador(id)} type="button" className="btn btn-primary">Editar</button>
             </form>: 
         <></>}
     </div>
