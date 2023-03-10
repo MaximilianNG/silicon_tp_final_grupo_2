@@ -4,11 +4,18 @@ import * as API from '../services/jugadoresService'
 import { JugadoresCard } from './JugadoresCard'
 import { useState, useEffect, useRef } from 'react'
 import { v4 as uuidv4 } from 'uuid'
+import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export function Jugadores() {
+  //Navigate
+  const navigate = useNavigate();
+
+  //Estados
   const [jugadores, setJugadores] = useState([]);
   const [nuevo, setNuevo] = useState(false);
-  // const [animacion, setAnimacion] = useState(false);
+  const [problema, setProblema] = useState(false);
 
   //Referencias
   const nombre = useRef();
@@ -18,20 +25,29 @@ export function Jugadores() {
   const id_localidad = useRef();
   const id_equipo = useRef();
 
+  //Effects
   useEffect(() => {
-    API.getJugadores().then(setJugadores)
+    API.getJugadores().then((datos) => {
+      if (datos.status == undefined) {
+        setJugadores(datos);
+      } else if (datos.status == false) {
+        toast.error("Problema de autenticación, haga click en volver.", {
+          toastId: "problema",
+          autoClose: 6000
+        });
+        setProblema(true);
+      }
+    })
   }, [])
 
 
   //Utilidades
   function renderNuevoJugadorForm() {
     setNuevo(!nuevo);
-    // setTimeout(()=>{
-    //   setAnimacion(!animacion)
-    // }, 10);
   }
 
-  const nuevoJugador = async () => {
+  const nuevoJugador = async (e) => {
+    e.preventDefault()
     let control = false;
     const datos_enviar = {
       nombre: nombre.current.value,
@@ -49,14 +65,23 @@ export function Jugadores() {
     }
 
     if (control) {
-      console.log("Completá el formulario y portate bien.");
-      return
+      toast.warning("Por favor complete todos los campos.", {
+        toastId: "error"
+      });
+      return false
+
     } else {
       const respuesta = await API.nuevoJugador(datos_enviar);
       respuesta.status?
-      console.log(respuesta.mensaje):
-      console.log(respuesta.mensaje);;
-      window.location.reload(false);
+    toast.success("El jugador se creó exitosamente. Refrescando...", {
+      toastId: "éxito",
+      onClose: () => {
+        navigate(0);
+      }
+    }):
+    toast.warning("Hubo un error creando el jugador.", {
+      toastId: "error"
+    });
     }
 
   }
@@ -65,33 +90,45 @@ export function Jugadores() {
     setNuevo(!nuevo);
   }
 
+  const clearToken = () => {
+    window.localStorage.removeItem('usuario');
+    window.localStorage.removeItem('token');
+  }
+
   return (
     <>
-      <div className="containerCentrarJugadores">
-            <button onClick={() => renderNuevoJugadorForm()} className='btn btn-success juegosButton'>Nuevo Jugador</button>
+      {problema?
+          <div className="containerCentrar">
+              <Link to={`/`}><button onClick={clearToken} className="btn btn-danger juegosButton">Volver</button></Link>
+          </div>
+          :
+      <></>}
+
+      <div className={problema?"d-none":"containerCentrarJugadores"}>
+            <button onClick={() => renderNuevoJugadorForm()} 
+            className='btn btn-success juegosButton'>Crear Jugador</button>
       </div>
 
-
   {nuevo?
-    <form className='containerNuevoJugador'>
+    <form id="nuevoJugador" onSubmit={(e) => nuevoJugador(e)} className='containerNuevoJugador'>
       <div>
         <label htmlFor="nombreJugador" className="form-label text-light mb-2">Nombre</label>
-        <input type="text" className="form-control mb-3" id="nombreJuego" 
+        <input required type="text" className="form-control mb-3" id="nombreJuego" 
         aria-describedby="nombreJugador" ref={nombre}/>
       </div>
       <div>
         <label htmlFor="apellidoJugador" className="form-label text-light mb-2">Apellido</label>
-        <input type="text" className="form-control mb-3" id="nombreJuego" 
+        <input required type="text" className="form-control mb-3" id="nombreJuego" 
         aria-describedby="apellidoJugador" ref={apellido}/>
       </div>
       <div>
         <label htmlFor="nombre_profesional" className="form-label text-light mb-2">Apodo</label>
-        <input type="text" className="form-control mb-3" id="nombreJuego" 
+        <input required type="text" className="form-control mb-3" id="nombreJuego" 
         aria-describedby="nombre_profesional" ref={nombre_profesional}/>
       </div>
       <div>
         <label htmlFor="emailJugador" className="form-label text-light mb-2">Email</label>
-        <input type="text" className="form-control mb-3" id="nombreJuego" 
+        <input required type="email" className="form-control mb-3" id="nombreJuego" 
         aria-describedby="emailJugador" ref={email}/>
       </div>
       <label htmlFor="localidadJugador" className="form-label text-light mb-2 ">Localidad del jugador</label>
@@ -126,7 +163,7 @@ export function Jugadores() {
             </select>
       
       
-      <button onClick={nuevoJugador} type="button" className="btn btn-primary">Agregar</button>
+      <button form="nuevoJugador" type="submit" className="btn btn-primary">Crear</button>
     </form>
       :
       <></>}
@@ -139,7 +176,7 @@ export function Jugadores() {
             id={`${jugador.id}`}/>
           ))}
         </div>
-        <div className="containerCentrarJugadores">
+        <div className={problema?"d-none":"containerCentrarJugadores"}>
             <Link to={`/admin`}><button className='btn btn-warning jugadoresButton'>Volver</button></Link>
         </div>
     </>

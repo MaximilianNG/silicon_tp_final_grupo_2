@@ -5,13 +5,20 @@ import { useState, useEffect, useRef } from 'react'
 import * as API from '../services/equiposService'
 import * as APIJuegos from '../services/juegosService'
 import { v4 as uuidv4 } from 'uuid'
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom'
 
 export function Equipos() {
+  //Navigate
+  const navigate = useNavigate();
+
   //Estados
   const [equipos, setEquipos] = useState([]);
   const [juegos, setJuegos] = useState([]);
   const [nuevo, setNuevo] = useState(false);
   const [animacion, setAnimacion] = useState(false);
+  const [problema, setProblema] = useState(false);
 
   //Referencias
   const nombre_equipo = useRef();
@@ -19,7 +26,17 @@ export function Equipos() {
 
   //Effects
   useEffect(() => {
-    API.getEquipos().then(setEquipos);
+    API.getEquipos().then((datos) => {
+      if (datos.status == undefined) {
+        setEquipos(datos);
+      } else if (datos.status == false) {
+        toast.error("Problema de autenticación, haga click en volver.", {
+          toastId: "problema",
+          autoClose: 6000
+        });
+        setProblema(true);
+      }
+    });
     APIJuegos.getJuegos().then(setJuegos);
   }, [])
 
@@ -31,9 +48,16 @@ export function Equipos() {
   }, 10);
   }
 
-  const nuevoEquipo = async () => {
+  const nuevoEquipo = async (e) => {
+    e.preventDefault()
     const nombre = nombre_equipo.current.value;
     const id_juego = juego_equipo.current.value;
+    if (nombre == "") {
+      toast.warning("Ingrese un nombre por favor.", {
+        toastId: "error"
+      });
+      return false
+    }
     const datos_enviar = {
       nombre: nombre,
       id_juego: id_juego
@@ -41,22 +65,41 @@ export function Equipos() {
     const respuesta = await API.nuevoEquipo(datos_enviar);
     nombre_equipo.current.value = "";
     respuesta.status?
-    console.log(respuesta.mensaje):
-    console.log(respuesta.mensaje);;
+    toast.success("El juego se creó exitosamente. Refrescando...", {
+      toastId: "éxito",
+      onClose: () => {
+        navigate(0);
+      }
+    }):
+    toast.warning("Hubo un error creando el juego.", {
+      toastId: "error"
+    });
   }
+
+  const clearToken = () => {
+    window.localStorage.removeItem('usuario');
+    window.localStorage.removeItem('token');
+    }
+
 
 
   return (
     <>
-        <div className="containerCentrar">
+      {problema?
+      <div className="containerCentrar">
+        <Link to={`/`}><button onClick={clearToken} className="btn btn-danger juegosButton">Volver</button></Link>
+      </div>:
+      <></>}
+
+        <div className={problema?"d-none":"containerCentrar"}>
             <button onClick={() => renderNuevoEquipoForm()} className='btn btn-success equiposButton'>Nuevo Equipo</button>
         </div>
 
         {nuevo?
-          <form className={`containerNuevo ${animacion ? "mostrar" : ""}`}>
+          <form id="nuevoEquipo" onSubmit={(e) => nuevoEquipo(e)} className={`containerNuevo ${animacion ? "mostrar" : ""}`}>
           <div>
             <label htmlFor="nombreEquipo" className="form-label text-light mb-2">Nombre del equipo</label>
-            <input type="text" className="form-control mb-3" id="nombreEquipo" 
+            <input required type="text" className="form-control mb-3" id="nombreEquipo" 
             aria-describedby="nombreEquipo" ref={nombre_equipo}/>
 
             <label htmlFor="juegoEquipo" className="form-label text-light mb-2">Juego del equipo</label>
@@ -71,7 +114,7 @@ export function Equipos() {
                 })}
             </select>
           </div>
-          <button onClick={() => {nuevoEquipo()}} type="button" className="btn btn-primary mt-5">Agregar</button>
+          <button form="nuevoEquipo" type="submit" className="btn btn-primary mt-5">Agregar</button>
         </form>
           :<></>}
 
@@ -81,7 +124,7 @@ export function Equipos() {
             id={`${equipo.id}`} juego={`${equipo.juego}`}/>
           ))}
         </div>
-        <div className="containerCentrar">
+        <div className={problema?"d-none":"containerCentrar"}>
             <Link to={`/admin`}><button className='btn btn-warning equiposButton'>Volver</button></Link>
         </div>
       </>

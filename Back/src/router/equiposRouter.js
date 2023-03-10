@@ -1,12 +1,7 @@
 const express = require('express');
 const router = express();
-
-/* // Librería para encriptar passwords.
-const bcrypt= require('bcrypt');
-// Librería para generar tokens.
-const jwt= require('jsonwebtoken'); */
-
-// Archivo de conexión a la base de datos.
+const jwt= require('jsonwebtoken');
+const verificarToken = require('./jwt');
 const mysqlConnection = require('../database');
 
 ///////////////  C.R.U.D. de Juegos  ///////////////
@@ -32,12 +27,21 @@ router.post('/equipos', (req, res) => {
 })
 
 //READ (GET) de todos los equipos.
-router.get('/equipos', (req, res)=>{
-    let query = `SELECT e.id, e.nombre, e.estado, j.nombre AS juego FROM equipos AS e
-                INNER JOIN juegos AS j
-                ON e.id_juego = j.id;`
-    mysqlConnection.query(query, (err, rows)=>{
-        res.json(rows);
+router.get('/equipos', verificarToken, (req, res) => {
+    jwt.verify(req.token, 'silicon', (error, valido) => {
+        if (error) {
+            res.json({
+                status: false,
+                mensaje: "Problema con sus credenciales, inicie sesión nuevamente."
+            })
+        } else {
+            let query = `SELECT e.id, e.nombre, e.estado, j.nombre AS juego FROM equipos AS e
+                        INNER JOIN juegos AS j
+                        ON e.id_juego = j.id;`
+            mysqlConnection.query(query, (err, rows)=>{
+                res.json(rows);
+            })
+        }
     })
 });
 
@@ -45,7 +49,11 @@ router.get('/equipos', (req, res)=>{
 router.put('/equipos/:id', (req, res) => {
     let id = req.params.id;
     const { nombre, id_juego } = req.body;
-    let query = `UPDATE equipos SET nombre = '${nombre}', id_juego = '${id_juego}' WHERE id = ${id};`;
+    if (id_juego == "0") {
+        query = `UPDATE equipos SET nombre = '${nombre}' WHERE id = ${id};`
+    } else {
+        query = `UPDATE equipos SET nombre = '${nombre}', id_juego = '${id_juego}' WHERE id = ${id};`
+    }
 
     mysqlConnection.query(query, (err, rows) => {
         if (!err) {

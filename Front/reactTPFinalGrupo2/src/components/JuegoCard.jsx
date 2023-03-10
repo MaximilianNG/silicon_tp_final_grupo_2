@@ -47,7 +47,7 @@ export function JuegoCard(props) {
     event.preventDefault();
     const nombre = nombre_juego.current.value;
     if (nombre == props.nombre) {
-      toast.warning("El juego ya tiene ese nombre, picarón.", {
+      toast.warning("El juego ya tiene ese nombre.", {
         toastId: "picarón"
       })
       return false;

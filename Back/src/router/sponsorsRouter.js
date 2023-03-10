@@ -1,13 +1,9 @@
 const express = require('express');
 const router = express();
-
-/* // Librería para encriptar passwords.
-const bcrypt= require('bcrypt');
-// Librería para generar tokens.
-const jwt= require('jsonwebtoken'); */
-
-// Archivo de conexión a la base de datos.
+const jwt= require('jsonwebtoken'); 
+const verificarToken = require('./jwt');
 const mysqlConnection = require('../database');
+
 
 ///////////////  C.R.U.D. de Sponsors  ///////////////
 
@@ -35,28 +31,34 @@ router.post('/sponsors', (req, res) => {
 //Esta tabla trae los campos: id, nombre (del sponsor), estado (del sponsor),
 //equipo_sponsoreado que trae el Nombre del equipo y
 //torneo_sponsoreado que trae el Nombre del torneo.
-router.get('/sponsors', (req, res)=>{
-    let query = `SELECT s.id, s.nombre, s.estado, e.nombre AS equipo_sponsoreado, "-" AS torneo_sponsoreado FROM sponsors AS s
-	LEFT JOIN equipos_sponsors AS es
-    ON s.id = es.id_sponsor
-    LEFT JOIN equipos AS e
-    ON es.id_equipo = e.id 
-    UNION ALL
-    SELECT s.id, s.nombre, s.estado, "-" AS equipo_sponsoreado ,t.nombre AS torneo_sponsoreado FROM sponsors AS s
-    LEFT JOIN torneos_sponsors AS ts
-    ON s.id = ts.id_sponsor
-    LEFT JOIN torneos AS t
-    ON ts.id_torneo = t.id
-    ORDER BY id ASC;`;
-
-    mysqlConnection.query(query, (err, rows)=>{
-        if (!err) {
-            res.json(rows);
+router.get('/sponsors', verificarToken, (req, res)=> {
+    jwt.verify(req.token, 'silicon', (error, valido) => {
+        if (error) {
+            res.json({
+                status: false,
+                mensaje: "Problema con sus credenciales, inicie sesión nuevamente."
+            })
         } else {
-            console.log(err);
+            let query = `SELECT s.id, s.nombre, s.estado, e.nombre AS equipo_sponsoreado, "-" AS torneo_sponsoreado FROM sponsors AS s
+                        LEFT JOIN equipos_sponsors AS es
+                        ON s.id = es.id_sponsor
+                        LEFT JOIN equipos AS e
+                        ON es.id_equipo = e.id 
+                        UNION ALL
+                        SELECT s.id, s.nombre, s.estado, "-" AS equipo_sponsoreado ,t.nombre AS torneo_sponsoreado FROM sponsors AS s
+                        LEFT JOIN torneos_sponsors AS ts
+                        ON s.id = ts.id_sponsor
+                        LEFT JOIN torneos AS t
+                        ON ts.id_torneo = t.id
+                        ORDER BY id ASC;`;
+
+            mysqlConnection.query(query, (err, rows)=>{
+                    res.json(rows);
+            })
+            }
         }
-    })
-});
+    )
+})
 
 //UPDATE de un sponsor - NOMBRE
 router.put('/sponsorsNombre/:id', (req, res) => {

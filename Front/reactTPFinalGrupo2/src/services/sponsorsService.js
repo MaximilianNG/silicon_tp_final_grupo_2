@@ -16,9 +16,19 @@ export async function nuevoSponsor(datos) {
 
 //READ de todos los sponsors y lo que sponsorean.
 export async function getSponsors() {
+    const token = JSON.parse(localStorage.getItem('token'));
+    const requestOptions = {
+        headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${token}`
+        }
+    }
     try {
-        const response = await fetch(`${API}/sponsors`);
+        const response = await fetch(`${API}/sponsors`, requestOptions);
         const data = await response.json();
+        if (data[Symbol.iterator] == undefined) {
+            return data;
+        };
         let sponsors = componerSponsors(data);
         return sponsors;
     }

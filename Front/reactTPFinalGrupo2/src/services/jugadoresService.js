@@ -3,8 +3,15 @@ const API = 'http://localhost:3302';
 
 //READ de todos los jugadores.
 export async function getJugadores() {
+    const token = JSON.parse(localStorage.getItem('token'));
+    const requestOptions = {
+        headers: {
+            'Content-Type': 'application/json',
+            authorization: `Bearer ${token}`
+        }
+    }
     try {
-        const response = await fetch(`${API}/jugadores`);
+        const response = await fetch(`${API}/jugadores`, requestOptions);
         const data = await response.json();
         return data;
     }
@@ -25,7 +32,6 @@ export async function nuevoJugador(datos) {
     const response = await fetch(`${API}/jugadores`, requestOptions);
     const data = await response.json();
     return data;
-
 }
 
 

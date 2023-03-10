@@ -1,29 +1,34 @@
 const express = require('express');
 const router = express();
-
-/* // Librería para encriptar passwords.
-const bcrypt= require('bcrypt');
-// Librería para generar tokens.
-const jwt= require('jsonwebtoken'); */
-
-// Archivo de conexión a la base de datos.
+const jwt= require('jsonwebtoken');
+const verificarToken = require('./jwt');
 const mysqlConnection = require('../database');
 
 //READ (GET) de todos los jugadores.
-router.get('/jugadores', (req, res)=>{
-    let query = `SELECT j.id,j.nombre,j.apellido,j.nombre_profesional,j.email,l.nombre as localidad,e.nombre as equipo, j.estado FROM jugadores as j
-    inner join localidades as l on j.id_localidad=l.id
-    inner join equipos as e on j.id_equipo = e.id;`;
-
-    mysqlConnection.query(query, (err, rows)=>{
-        res.json(rows);
+router.get('/jugadores', verificarToken, (req, res) => {
+    jwt.verify(req.token, 'silicon', (error, valido) => {
+        if (error) {
+            res.json({
+                status: false,
+                mensaje: "Problema con sus credenciales, inicie sesión nuevamente."
+            })
+        } else {
+            let query = `SELECT j.id,j.nombre,j.apellido,j.nombre_profesional,j.email,l.nombre as localidad,e.nombre as equipo, j.estado FROM jugadores as j
+            inner join localidades as l on j.id_localidad=l.id
+            inner join equipos as e on j.id_equipo = e.id;`;
+        
+            mysqlConnection.query(query, (err, rows)=>{
+                res.json(rows);
+            })
+        }
     })
+
 });
 
 //CREATE de un jugador nuevo.
 router.post('/jugadores', (req, res) => {
-    const { nombre, apellido,nombre_profesional,email, id_localidad, id_equipo} = req.body;
-    let query = `INSERT INTO jugadores (nombre,apellido,nombre_profesional,email,id_localidad,id_equipo) 
+    const { nombre, apellido, nombre_profesional, email, id_localidad, id_equipo} = req.body;
+    let query = `INSERT INTO jugadores (nombre, apellido, nombre_profesional, email, id_localidad, id_equipo) 
     VALUES ('${nombre}', '${apellido}', '${nombre_profesional}', '${email}', '${id_localidad}', '${id_equipo}')`;
 
     mysqlConnection.query(query, (err, rows) => {
