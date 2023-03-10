@@ -27,3 +27,7 @@
     padding: 1rem;
     border: 5px ridge #7c4792;
 }
+
+#botonEditar{
+    margin-top: 15px !important;
+}

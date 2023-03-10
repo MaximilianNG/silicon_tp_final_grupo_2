@@ -46,6 +46,7 @@ export function Login() {
 
   return (
       <>
+        <img src='../imagenes/logotorneo.png' id='Logo' alt='imagen del Logo'></img>
         <div className="text-light loginForm" >
             <form className="mx-3 align-self-center" id="login" onSubmit={login}>
                 <div className="form-group">
