@@ -1,8 +1,33 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.fond{
+    background-image: url(https://images3.alphacoders.com/247/247229.jpg) ;
+}
+
 .containerJuegos {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
     justify-content: center;
+}
+
+.containerNuevo {
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+    margin: 0 2rem 1rem 2rem;
+    padding: 1rem;
+    border: 5px ridge #7c4792;
+    transition: opacity 0.25s ease-in;
+}
+
+.mostrar {
+    opacity: 1;
 }
 
 .juegosButton {
@@ -15,3 +40,13 @@
     justify-content: center;
     margin: 1rem 0;
 }
+
+@media only screen and (min-width: 992px) {
+    .containerJuegos {
+        display: flex;
+        flex-direction: column;
+        row-gap: 1rem;
+        width: 50%;
+        justify-content: center;
+    }
+ }

@@ -1,14 +1,25 @@
-.containerP {
-    margin-top: 2rem;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    column-gap: 1.5rem;
-    row-gap: 1rem;
-}
-
 .adminButton {
     background-color: antiquewhite;
     min-width: 8rem;
     min-height: 5rem;
+}
+
+.header{
+    background-color: black;
+    position: fixed;
+    left: 0%;
+    top: 0%;
+    width: 100%;
+    z-index: 1;
+}
+
+.carruselImagen {
+    max-height: 80vh;
+    max-width: 100vw
+}
+
+@media only screen and (max-width: 420px) {
+    .centrarCarrusel {
+      margin-top: 20vh;
+    }
 }

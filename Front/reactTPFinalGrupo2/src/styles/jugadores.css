@@ -1,37 +1,38 @@
-.containerTorneos {
+.containerJugadores {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
     justify-content: center;
 }
 
-.torneosButton {
+.jugadoresButton {
     min-width: 8rem;
     min-height: 5rem;
 }
 
-.containerCentrar {
+.containerCentrarJugadores {
     display: flex;
     justify-content: center;
     margin: 1rem 0;
 }
 
-.containerNuevoTorneo {
+
+.containerNuevoJugador {
     opacity: 1;
     display: flex;
     flex-direction: column;
     margin: 0 2rem 1rem 2rem;
     padding: 1rem;
     border: 5px ridge #7c4792;
-    min-width: 40vw
+    min-width: 40vw;
 }
 
 @media only screen and (min-width: 992px) {
-    .containerTorneos {
+    .containerJugadores {
         display: flex;
         flex-direction: column;
         row-gap: 1rem;
-        width: 50%;
+        width: 60%;
         justify-content: center;
     }
  }

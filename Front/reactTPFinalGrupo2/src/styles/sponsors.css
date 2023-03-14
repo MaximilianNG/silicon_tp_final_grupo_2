@@ -13,5 +13,26 @@
 .containerCentrar {
     display: flex;
     justify-content: center;
+    gap: 2rem;
     margin: 1rem 0;
 }
+
+.containerNuevoSponsor {
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+    margin: 0 2rem 1rem 2rem;
+    padding: 1rem;
+    border: 5px ridge #7c4792;
+    transition: opacity 0.25s ease-in;
+}
+
+@media only screen and (min-width: 992px) {
+    .containerSponsors {
+        display: flex;
+        flex-direction: column;
+        row-gap: 1rem;
+        width: 70%;
+        justify-content: center;
+    }
+ }

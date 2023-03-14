@@ -1,6 +1,8 @@
 .loginForm {
-    padding-top: 20vh;
     justify-self: center;
+    align-self: center;
+    padding-top: 15vh;
+    min-width: 68vw
 }
 
 @media only screen and (min-width: 992px) {
