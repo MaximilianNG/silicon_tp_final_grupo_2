@@ -7,6 +7,8 @@ import { v4 as uuidv4 } from 'uuid'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Navbar  from './Navbar'
+import  Footer  from './Footer'
 
 export function Juegos() {
   //Estados del componente
@@ -73,7 +75,9 @@ export function Juegos() {
 
   return (
       <>
-      {problema?
+        <Navbar/>
+        <div className='fond'>
+        {problema?
           <div className="containerCentrar">
               <Link to={`/`}><button onClick={clearToken} className="btn btn-danger juegosButton">Volver</button></Link>
           </div>
@@ -108,6 +112,9 @@ export function Juegos() {
         <div className="containerCentrar">
             <Link to={`/admin`}><button className={problema?`d-none`:`btn btn-warning juegosButton`}>Volver</button></Link>
         </div>
+        </div>
+        <Footer/>
+
       </>
   )
 }
