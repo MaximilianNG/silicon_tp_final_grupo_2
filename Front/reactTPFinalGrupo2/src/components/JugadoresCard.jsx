@@ -120,7 +120,7 @@ export function JugadoresCard(props) {
         </div>
 
         <div className="cardBotonesContainer">
-            <button onClick={() => renderEditarForm()} className="btn btn-primary">Editar</button>
+            <button onClick={() => renderEditarForm()} className={editar?"btn btn-warning":"btn btn-primary"}>Editar</button>
             {estado?
             <button onClick={() => estadoJugador(props.id, "0")} className="btn btn-success">Activo</button>:
             <button onClick={() => estadoJugador(props.id, "1")} className="btn btn-danger">Inactivo</button>}
@@ -131,22 +131,22 @@ export function JugadoresCard(props) {
           <div>
             <label htmlFor="nombreJugador" className="form-label mb-2">Nombre</label>
             <input required type="text" className="form-control mb-3" id="edNombreJugador" 
-            aria-describedby="nombreJugador" ref={nombreEd}/>
+            aria-describedby="nombreJugador" ref={nombreEd} defaultValue={props.nombre}/>
       </div>
       <div>
         <label htmlFor="apellidoJugador" className="form-label mb-2">Apellido</label>
         <input required type="text" className="form-control mb-3" id="edApellidoJugador" 
-        aria-describedby="apellidoJugador" ref={apellidoEd}/>
+        aria-describedby="apellidoJugador" ref={apellidoEd} defaultValue={props.apellido}/>
       </div>
       <div>
         <label htmlFor="nombre_profesional" className="form-label mb-2">Apodo</label>
         <input required type="text" className="form-control mb-3" id="edApodoJugador" 
-        aria-describedby="nombre_profesional" ref={nombre_profesionalEd}/>
+        aria-describedby="nombre_profesional" ref={nombre_profesionalEd} defaultValue={props.nombre_profesional}/>
       </div>
       <div>
         <label htmlFor="emailJugador" className="form-label mb-2">Email</label>
         <input required type="email" className="form-control mb-3" id="edEmailJugador" 
-        aria-describedby="emailJugador" ref={emailEd}/>
+        aria-describedby="emailJugador" ref={emailEd} defaultValue={props.email}/>
       </div>
       <label htmlFor="localidadJugador" className="form-label mb-2 ">Localidad del jugador</label>
             <select className="form-select" aria-label="Elegir localidad del torneo" ref={id_localidadEd}>

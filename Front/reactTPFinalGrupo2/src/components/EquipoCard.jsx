@@ -63,11 +63,13 @@ export function EquipoCard(props) {
       e.preventDefault()
       const nombre = nombre_equipo.current.value;
       const id_juego = juego_equipo.current.value;
-      if (nombre == props.nombre) {
-        toast.warning("El equipo ya tiene ese nombre.", {
-          toastId: "picarón"
-        })
-        return false;
+      if (id_juego == 0) {
+        if (nombre == props.nombre) {
+          toast.warning("El equipo ya tiene esos valores.", {
+            toastId: "picarón"
+          })
+          return false;
+        }
       }
 
       if ( nombre == "") {
@@ -108,7 +110,7 @@ export function EquipoCard(props) {
               </div>
               <div className="col">
                 <div className="cardBotonesContainer float-end">
-                  <button onClick={() => renderEditarForm()} className="btn btn-primary">Editar</button>
+                  <button onClick={() => renderEditarForm()} className={editar?"btn btn-warning":"btn btn-primary"}>Editar</button>
                   {estado?
                   <button onClick={() => estadoEquipo(id, '0')}
                   className="btn btn-success">Activo</button>:
@@ -128,7 +130,7 @@ export function EquipoCard(props) {
           <div>
             <label htmlFor="nombreEquipo" className="form-label mx-2 mt-2">Nombre del equipo:</label>
             <input required type="text" className="form-control mb-3" id="nombreEquipo" 
-            aria-describedby="nombreEquipo" ref={nombre_equipo}/>
+            aria-describedby="nombreEquipo" ref={nombre_equipo} defaultValue={nombre}/>
             <label htmlFor="juegoEquipo" className="form-label">Juego del equipo</label>
             <select className="form-select" aria-label="Juegos activos para elegir" ref={juego_equipo}>
               <option key={uuidv4()} className="dropdown-item" value="0">No cambiar el juego</option>

@@ -292,12 +292,12 @@ export function SponsorCard(props) {
           <div className="container">
             <div className="row card-header">
               <div className="col">
-              <h5 className="fw-bolder">{props.nombre} <button onClick={renderEditarNombreForm} className="btn btn-primary pt-1 mb-1"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pen" viewBox="0 0 16 16"><path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/></svg></button></h5>
+              <h5 className="fw-bolder">{props.nombre} <button onClick={renderEditarNombreForm} className={editarNombre?"btn btn-warning":"btn btn-primary pt-1 mb-1"}><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pen" viewBox="0 0 16 16"><path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/></svg></button></h5>
               </div>
               <div className="col">
               {props.estado?
                   <button onClick={() => estadoSponsor(props.id, "0")} className="float-end btn btn-success">Activo</button>:
-                  <button onClick={() => estadoSponsor(props.id, "1")} className="btn btn-danger">Inactivo</button>
+                  <button onClick={() => estadoSponsor(props.id, "1")} className="float-end btn btn-danger">Inactivo</button>
               }
               </div>
             </div>
@@ -308,7 +308,7 @@ export function SponsorCard(props) {
               <div>
                 <label htmlFor="nombreSponsor" className="form-label mx-2">Nuevo nombre del sponsor:</label>
                 <input required type="text" className="form-control mb-3" id="nombreSponsor" 
-                aria-describedby="nombreSponsor" ref={nombre_sponsor}/>
+                aria-describedby="nombreSponsor" ref={nombre_sponsor} defaultValue={props.nombre}/>
               </div>
               <button form="editarNombre" type="submit" className="btn btn-primary">Confirmar</button>
             </form>: 
@@ -325,7 +325,7 @@ export function SponsorCard(props) {
                 )):
                 <p className='text-center'>Ningún equipo</p>
                 }
-                <button onClick={renderEditarEquiposForm} className="btn btn-primary">Editar equipos</button>
+                <button onClick={renderEditarEquiposForm} className={editarEquipos?"btn btn-warning":"btn btn-primary"}>Editar equipos</button>
             </div>
 
             {editarEquipos?
@@ -386,7 +386,7 @@ export function SponsorCard(props) {
                 )):
                 <p className='text-center'>Ningún equipo.</p>
               }
-              <button onClick={renderEditarTorneosForm} className="btn btn-primary editarTorneos">Editar torneos</button>
+              <button onClick={renderEditarTorneosForm} className={editarTorneos?"btn btn-warning":"btn btn-primary"}>Editar torneos</button>
           </div>
 
           {editarTorneos?
