@@ -8,6 +8,8 @@ import { v4 as uuidv4 } from 'uuid'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom'
+import Navbar  from './Navbar'
+import  Footer  from './Footer'
 
 export function Equipos() {
   //Navigate
@@ -85,6 +87,8 @@ export function Equipos() {
 
   return (
     <>
+      <Navbar/>
+      <div className='fond'>
       {problema?
       <div className="containerCentrar">
         <Link to={`/`}><button onClick={clearToken} className="btn btn-danger juegosButton">Volver</button></Link>
@@ -127,6 +131,51 @@ export function Equipos() {
         <div className={problema?"d-none":"containerCentrar"}>
             <Link to={`/admin`}><button className='btn btn-warning equiposButton'>Volver</button></Link>
         </div>
+
+      </div>
+      {problema?
+      <div className="containerCentrar">
+        <Link to={`/`}><button onClick={clearToken} className="btn btn-danger juegosButton">Volver</button></Link>
+      </div>:
+      <></>}
+
+        <div className={problema?"d-none":"containerCentrar"}>
+            <button onClick={() => renderNuevoEquipoForm()} className='btn btn-success equiposButton'>Nuevo Equipo</button>
+        </div>
+
+        {nuevo?
+          <form id="nuevoEquipo" onSubmit={(e) => nuevoEquipo(e)} className={`containerNuevo ${animacion ? "mostrar" : ""}`}>
+          <div>
+            <label htmlFor="nombreEquipo" className="form-label text-light mb-2">Nombre del equipo</label>
+            <input required type="text" className="form-control mb-3" id="nombreEquipo" 
+            aria-describedby="nombreEquipo" ref={nombre_equipo}/>
+
+            <label htmlFor="juegoEquipo" className="form-label text-light mb-2">Juego del equipo</label>
+            <select className="form-select" aria-label="Juegos activos para elegir" ref={juego_equipo}>
+              <option className="dropdown-item" value="0">Elija un juego</option>
+              {juegos.map((juego) => {
+                if (juego.estado != 0) {
+                  return (
+                    <option key={uuidv4()} className="dropdown-item" value={juego.id}>{juego.nombre}</option>
+                  )
+                }
+                })}
+            </select>
+          </div>
+          <button form="nuevoEquipo" type="submit" className="btn btn-primary mt-5">Agregar</button>
+        </form>
+          :<></>}
+
+        <div className="containerEquipos">
+          {equipos.map((equipo) => (
+            <EquipoCard key={uuidv4()} nombre={`${equipo.nombre}`} estado={`${equipo.estado}`}
+            id={`${equipo.id}`} juego={`${equipo.juego}`}/>
+          ))}
+        </div>
+        <div className={problema?"d-none":"containerCentrar"}>
+            <Link to={`/admin`}><button className='btn btn-warning equiposButton'>Volver</button></Link>
+        </div>
+        <Footer/>
       </>
   )
 }

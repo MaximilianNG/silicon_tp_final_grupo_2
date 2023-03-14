@@ -7,6 +7,8 @@ import { v4 as uuidv4 } from 'uuid'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Navbar  from './Navbar'
+import  Footer  from './Footer'
 
 export function Jugadores() {
   //Navigate
@@ -97,6 +99,8 @@ export function Jugadores() {
 
   return (
     <>
+      <Navbar/>
+      <div className='fond'>
       {problema?
           <div className="containerCentrar">
               <Link to={`/`}><button onClick={clearToken} className="btn btn-danger juegosButton">Volver</button></Link>
@@ -179,6 +183,8 @@ export function Jugadores() {
         <div className={problema?"d-none":"containerCentrarJugadores"}>
             <Link to={`/admin`}><button className='btn btn-warning jugadoresButton'>Volver</button></Link>
         </div>
+      </div>
+      <Footer/>
     </>
   )
 }
