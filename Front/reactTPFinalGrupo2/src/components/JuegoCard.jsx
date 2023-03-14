@@ -78,7 +78,7 @@ export function JuegoCard(props) {
                   <div className="col"><h5 className="card-header">{props.nombre}</h5></div>
                   <div className="col">
                   <div className="cardBotonesContainer float-end">
-                <button onClick={() => renderEditarForm()} className="btn btn-primary">Editar</button>
+                <button onClick={() => renderEditarForm()} className={editar?"btn btn-warning":"btn btn-primary"}>Editar</button>
                 {estado?
                 <button onClick={() => estadoJuego(id, '0')}
                 className="btn btn-success">Activo</button>:
@@ -97,7 +97,7 @@ export function JuegoCard(props) {
               <div>
                 <label htmlFor="nombreJuego" className="form-label mx-2 pt-3">Nuevo nombre del juego:</label>
                 <input type="text" className="form-control mb-3" id="nombreJuego" required
-                aria-describedby="nombreJuego" ref={nombre_juego}/>
+                aria-describedby="nombreJuego" ref={nombre_juego} defaultValue={props.nombre}/>
               </div>
               <button type="submit" form="editarJuego" className="btn btn-primary">Editar</button>
             </form>: 

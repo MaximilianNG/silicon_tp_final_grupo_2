@@ -130,24 +130,25 @@ export function TorneoCard(props) {
             
         </div>
         <div className="cardBotonesContainer">
-            <button onClick={() => renderEditarForm()} className="btn btn-primary">Editar</button>
+            <button onClick={() => renderEditarForm()} className={editar?"btn btn-warning":"btn btn-primary"}>Editar</button>
             {estado?
             <button onClick={() => estadoTorneo(props.id, "0")} className="btn btn-success">Activo</button>:
             <button onClick={() => estadoTorneo(props.id, "1")} className="btn btn-danger">Inactivo</button>}
         </div>
+
         {editar?
             <form id="editarTorneo" onSubmit={(e) => editarTorneo(props.id, e)} className={`editarContainer`}>
             <div>
               <label htmlFor="nombreTorneo" className="form-label mb-2 mt-3">Nuevo nombre</label>
               <input required type="text" className="form-control mb-3" id="nombreTorneo" 
-              aria-describedby="nombre del torneo" ref={nombreEd}/>
+              aria-describedby="nombre del torneo" ref={nombreEd} defaultValue={props.nombre}/>
 
               <label htmlFor="fechaTorneo" className="form-label mb-2">Nueva fecha</label>
               <input required type="date" className="form-control mb-3" id="fechaTorneo"  
-              aria-describedby="fecha del torneo" ref={fechaEd}/>
+              aria-describedby="fecha del torneo" ref={fechaEd} defaultValue={fecha}/>
   
               <label htmlFor="juegoTorneo" className="form-label mb-2">Juego del torneo</label>
-              <select required className="form-select" aria-label="Juegos activos para elegir" ref={id_juego}>
+              <select required className="form-select" aria-label="Juegos activos para elegir" ref={id_juego} defaultValue={props.juego}>
                 <option className="dropdown-item" value="0">Elija un juego</option>
                 {juegos.map((juego) => {
                   if (juego.estado != 0) {
