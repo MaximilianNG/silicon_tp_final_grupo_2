@@ -1,12 +1,3 @@
-.containerP {
-    margin-top: 2rem;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    column-gap: 1.5rem;
-    row-gap: 1rem;
-}
-
 .adminButton {
     background-color: antiquewhite;
     min-width: 8rem;
@@ -22,54 +13,13 @@
     z-index: 1;
 }
 
-
-
-
-/* SLIDER */
-
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+.carruselImagen {
+    max-height: 80vh;
+    max-width: 100vw
 }
 
-.slider{
-    width: 100%;
-    height: 600px;
-    overflow: hidden;
-}
-.slider ul{
-    display: flex;
-    animation: cambio 20s infinite alternate linear;
-    width: 400%;
-}
-
-.slider li{
-     width: 100%;
-    list-style: none;
-}
-
-.slider img{
-    width: 100%;
-    height: 100%;
-}
-
-@keyframes cambio{
-      0%{margin-left: 0;}
-      20%{margin-left: 0;}
-      
-      25%{margin-left: -100%;}
-      45%{margin-left: -100%;}
-      
-      50%{margin-left: -200%;}
-      70%{margin-left: -200%;}
-      
-      75%{margin-left: -300%;}
-      100%{margin-left: -300%;}
-}
-
-@media only screen and (min-width:320px) and (max-width:768px){
-  .slider, .slider ul, .slider img{
-    height: 100vh;
-  }
+@media only screen and (max-width: 420px) {
+    .centrarCarrusel {
+      margin-top: 20vh;
+    }
 }

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom'
 import '../styles/jugadores.css'
 import * as API from '../services/jugadoresService'
+import * as APIEquipos from '../services/equiposService'
 import { JugadoresCard } from './JugadoresCard'
 import { useState, useEffect, useRef } from 'react'
 import { v4 as uuidv4 } from 'uuid'
@@ -8,7 +9,7 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Navbar  from './Navbar'
-import  Footer  from './Footer'
+
 
 export function Jugadores() {
   //Navigate
@@ -16,6 +17,7 @@ export function Jugadores() {
 
   //Estados
   const [jugadores, setJugadores] = useState([]);
+  const [equiposT, setEquiposT] = useState([]);
   const [nuevo, setNuevo] = useState(false);
   const [problema, setProblema] = useState(false);
 
@@ -40,6 +42,7 @@ export function Jugadores() {
         setProblema(true);
       }
     })
+    APIEquipos.getEquipos().then(setEquiposT);
   }, [])
 
 
@@ -100,7 +103,6 @@ export function Jugadores() {
   return (
     <>
       <Navbar/>
-      <div className='fond'>
       {problema?
           <div className="containerCentrar">
               <Link to={`/`}><button onClick={clearToken} className="btn btn-danger juegosButton">Volver</button></Link>
@@ -108,9 +110,10 @@ export function Jugadores() {
           :
       <></>}
 
-      <div className={problema?"d-none":"containerCentrarJugadores"}>
-            <button onClick={() => renderNuevoJugadorForm()} 
-            className='btn btn-success juegosButton'>Crear Jugador</button>
+      <div className={problema?"d-none":"containerCentrar"}>
+          <button onClick={() => renderNuevoJugadorForm()} 
+          className='btn btn-success juegosButton'>Crear jugador</button>
+          <Link to={`/admin`}><button className='btn btn-warning jugadoresButton'>Volver</button></Link>
       </div>
 
   {nuevo?
@@ -155,19 +158,17 @@ export function Jugadores() {
       <label htmlFor="equipoJugador" className="form-label text-light mb-2 mt-3">Equipo del jugador</label>
             <select className="form-select" aria-label="Elegir equipo del jugador" ref={id_equipo}>
               <option className="dropdown-item" value="0">Elija un equipo</option>
-              <option className="dropdown-item" value="1">Banzai</option>
-              <option className="dropdown-item" value="2">Crimson</option>
-              <option className="dropdown-item" value="3">Toxic</option>
-              <option className="dropdown-item" value="4">Gecko</option>
-              <option className="dropdown-item" value="5">Horad</option>
-              <option className="dropdown-item" value="6">Wasps</option>
-              <option className="dropdown-item" value="7">Silver</option>
-              <option className="dropdown-item" value="8">Kamikaze</option>
-              <option className="dropdown-item" value="9">Delta</option>
+              {equiposT.map((equipo) => {
+                    if (equipo.estado != 0) {
+                      return (
+                        <option key={uuidv4()} className="dropdown-item" value={equipo.id}>{equipo.nombre}</option>
+                      )
+                    }
+                    })}
             </select>
       
       
-      <button form="nuevoJugador" type="submit" className="btn btn-primary">Crear</button>
+      <button form="nuevoJugador" type="submit" className="btn btn-primary mt-3">Crear</button>
     </form>
       :
       <></>}
@@ -175,16 +176,17 @@ export function Jugadores() {
 
 
       <div className="containerJugadores">
+        <div className="container">
+          <div className="row gy-3">
           {jugadores.map((jugador) => (
-            <JugadoresCard key={uuidv4()} nombre={`${jugador.nombre}`} apellido={`${jugador.apellido}`} apodo={`${jugador.nombre_profesional}`} email={`${jugador.email}`} equipo={`${jugador.equipo}`} localidad={`${jugador.localidad}`} estado={`${jugador.estado}`}
-            id={`${jugador.id}`}/>
-          ))}
+              <JugadoresCard key={uuidv4()} nombre={jugador.nombre} apellido={jugador.apellido} nombre_profesional={jugador.nombre_profesional}
+              equipo={jugador.equipo} estado={jugador.estado} equiposT={equiposT} 
+              email={jugador.email} localidad={jugador.localidad} id={jugador.id}/>
+            )) }
+          </div>
         </div>
-        <div className={problema?"d-none":"containerCentrarJugadores"}>
-            <Link to={`/admin`}><button className='btn btn-warning jugadoresButton'>Volver</button></Link>
+
         </div>
-      </div>
-      <Footer/>
     </>
   )
 }

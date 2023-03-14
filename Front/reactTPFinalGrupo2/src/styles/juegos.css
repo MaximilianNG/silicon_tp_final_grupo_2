@@ -40,3 +40,13 @@
     justify-content: center;
     margin: 1rem 0;
 }
+
+@media only screen and (min-width: 992px) {
+    .containerJuegos {
+        display: flex;
+        flex-direction: column;
+        row-gap: 1rem;
+        width: 50%;
+        justify-content: center;
+    }
+ }

@@ -23,4 +23,15 @@
     margin: 0 2rem 1rem 2rem;
     padding: 1rem;
     border: 5px ridge #7c4792;
+    min-width: 40vw
 }
+
+@media only screen and (min-width: 992px) {
+    .containerTorneos {
+        display: flex;
+        flex-direction: column;
+        row-gap: 1rem;
+        width: 50%;
+        justify-content: center;
+    }
+ }

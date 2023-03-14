@@ -46,6 +46,26 @@ router.post('/jugadores', (req, res) => {
     })
 })
 
+//UPDATE de un jugador.
+router.put('/jugadores/:id', (req, res) => {
+    let id = req.params.id;
+    const { nombre, apellido, nombre_profesional, email, id_localidad, id_equipo } = req.body;
+    let query = `UPDATE jugadores SET nombre='${nombre}', apellido='${apellido}', nombre_profesional='${nombre_profesional}', email='${email}', id_localidad='${id_localidad}', id_equipo='${id_equipo}'  WHERE id=${id}`;
+    mysqlConnection.query(query, (err, rows) => {
+        if (!err) {
+            res.json({
+                status: true,
+                mensaje: "El jugador se editó correctamente."
+            });
+        } else {
+            console.log(err);
+            res.json({
+                status: false,
+                mensaje: "Hubo un error editando el jugador. Ver jugadoresRouter.js."
+            });
+        }
+    })
+})
 
 //DELETE lógico de un jugador.
 router.put('/estadojugador/:id', (req, res)=>{
@@ -67,28 +87,6 @@ router.put('/estadojugador/:id', (req, res)=>{
         }
     })
 });
-
-
-//UPDATE de un jugador.
-router.put('/jugadores/:id', (req, res) => {
-    let id = req.params.id;
-    const { nombre,apellido,nombre_profesional,email,id_localidad,id_equipo } = req.body;
-    let query = `UPDATE jugadores SET nombre='${nombre}', apellido='${apellido}', nombre_profesional='${nombre_profesional}', email='${email}', id_localidad='${id_localidad}', id_equipo='${id_equipo}'  WHERE id=${id}`;
-    mysqlConnection.query(query, (err, rows) => {
-        if (!err) {
-            res.json({
-                status: true,
-                mensaje: "El jugador se editó correctamente."
-            });
-        } else {
-            res.json({
-                status: false,
-                mensaje: "Hubo un error editando el jugador. Ver jugadoresRouter.js."
-            });
-        }
-    })
-})
-
 
 //Siempre terminar exportando para que index.js pueda tener acceso a estas rutas.
 module.exports = router;

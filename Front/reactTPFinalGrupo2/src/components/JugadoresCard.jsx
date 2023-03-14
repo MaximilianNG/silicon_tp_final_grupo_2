@@ -4,6 +4,7 @@ import * as API from '../services/jugadoresService'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom'
+import { v4 as uuidv4 } from 'uuid'
 
 export function JugadoresCard(props) {
   //Navigate
@@ -21,13 +22,6 @@ export function JugadoresCard(props) {
   const id_equipoEd = useRef();
 
   //Constructor
-  let nombre = props.nombre;
-  let apellido = props.apellido;
-  let apodo = props.apodo;
-  let email = props.email;
-  let equipo = props.equipo;
-  let id = props.id;
-  let localidad = props.localidad;
   let estado = false;
   if (props.estado == 1) {
     estado = true;
@@ -98,23 +92,42 @@ export function JugadoresCard(props) {
   return (
     <div className="card">
         <div className="card-body">
-            <h5 className="card-title">Nombre: {nombre}</h5>
-            <p className="card-text">Apellido: {apellido}</p>
-            <p className="card-text">Apodo: {apodo}</p>
-            <p className="card-text">Email: {email}</p>
-            <p className="card-text">Localidad: {localidad}</p>
-            <p className="card-text">Equipo: {equipo}</p>
-            
+          <div className="container">
+            <div className="row card-header">
+              <div className="col">
+                <h5 className="card-title">Nombre: {props.nombre}</h5>
+
+              </div>
+              <div className="col">
+                <p className="card-text">Apellido: {props.apellido}</p>
+              </div>
+              <div className="col">
+                <p className="card-text">Apodo: {props.nombre_profesional}</p>
+              </div>
+            </div>
+            <div className="row mt-2">
+              <div className="col">
+                <p className="card-text">Email: {props.email}</p>
+              </div>
+              <div className="col">
+                <p className="card-text">Localidad: {props.localidad}</p>
+              </div>
+              <div className="col">
+                <p className="card-text">Equipo: {props.equipo}</p>
+              </div>
+            </div>
+          </div>
         </div>
+
         <div className="cardBotonesContainer">
             <button onClick={() => renderEditarForm()} className="btn btn-primary">Editar</button>
             {estado?
-            <button onClick={() => estadoJugador(id, "0")} className="btn btn-success">Activo</button>:
-            <button onClick={() => estadoJugador(id, "1")} className="btn btn-danger">Inactivo</button>}
+            <button onClick={() => estadoJugador(props.id, "0")} className="btn btn-success">Activo</button>:
+            <button onClick={() => estadoJugador(props.id, "1")} className="btn btn-danger">Inactivo</button>}
         </div>
 
         {editar?
-        <form id="editarJugador" onSubmit={(e) => editarJugador(id, e)} className='containerEdJugador'>
+        <form id="editarJugador" onSubmit={(e) => editarJugador(props.id, e)} className='containerEdJugador'>
           <div>
             <label htmlFor="nombreJugador" className="form-label mb-2">Nombre</label>
             <input required type="text" className="form-control mb-3" id="edNombreJugador" 
@@ -154,18 +167,16 @@ export function JugadoresCard(props) {
 
         <label htmlFor="equipoJugador" className="form-label mb-2 mt-3">Equipo del jugador</label>
             <select className="form-select" aria-label="Elegir equipo del jugador" ref={id_equipoEd}>
-              <option className="dropdown-item" value="0">Elija un equipo</option>
-              <option className="dropdown-item" value="1">Banzai</option>
-              <option className="dropdown-item" value="2">Crimson</option>
-              <option className="dropdown-item" value="3">Toxic</option>
-              <option className="dropdown-item" value="4">Gecko</option>
-              <option className="dropdown-item" value="5">Horad</option>
-              <option className="dropdown-item" value="6">Wasps</option>
-              <option className="dropdown-item" value="7">Silver</option>
-              <option className="dropdown-item" value="8">Kamikaze</option>
-              <option className="dropdown-item" value="9">Delta</option>
+            <option className="dropdown-item" value="0">Elija un equipo</option>
+            {props.equiposT.map((equipo) => {
+                    if (equipo.estado != 0 && !props.equipo.includes(equipo.nombre)) {
+                      return (
+                        <option key={uuidv4()} className="dropdown-item" value={equipo.id}>{equipo.nombre}</option>
+                      )
+                    }
+                    })}
             </select>
-              <button id='botonEditar' onClick={() => editarJugador(id)} type="button" className="btn btn-primary">Editar</button>
+              <button form='editarJugador' type="submit" className="btn btn-primary mt-3">Editar</button>
             </form>: 
         <></>}
     </div>

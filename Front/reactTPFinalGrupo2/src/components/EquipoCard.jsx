@@ -98,17 +98,30 @@ export function EquipoCard(props) {
     <>
     <div className="card">
         <div className="card-body">
-            <h5 className="card-title">{nombre}</h5>
-            <p className="card-text">Juego: {juego}</p>
+          <div className="container">
+            <div className="row">
+              <div className="col">
+                <h5 className="card-title card-header">{nombre}</h5>
+              </div>
+              <div className="col">
+                <p className="card-text">Juego: {juego}</p>
+              </div>
+              <div className="col">
+                <div className="cardBotonesContainer float-end">
+                  <button onClick={() => renderEditarForm()} className="btn btn-primary">Editar</button>
+                  {estado?
+                  <button onClick={() => estadoEquipo(id, '0')}
+                  className="btn btn-success">Activo</button>:
+                  <button onClick={() => estadoEquipo(id, '1')} 
+                  className="btn btn-danger">Inactivo</button>}
+                </div>  
+              </div>
+            </div>
+          </div>
+            
+            
         </div>
-        <div className="cardBotonesContainer">
-            <button onClick={() => renderEditarForm()} className="btn btn-primary">Editar</button>
-            {estado?
-            <button onClick={() => estadoEquipo(id, '0')}
-            className="btn btn-success">Activo</button>:
-            <button onClick={() => estadoEquipo(id, '1')} 
-            className="btn btn-danger">Inactivo</button>}
-        </div>
+
 
         {editar?
         <form id="editarEquipo" onSubmit={(e) => editarEquipo(id, e)} className={`editarContainer ${animacion ? "mostrar" : ""}`}>

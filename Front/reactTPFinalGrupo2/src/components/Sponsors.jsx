@@ -10,7 +10,6 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom'
 import Navbar  from './Navbar'
-import  Footer  from './Footer'
 
 export function Sponsors() {
   //Navigate
@@ -89,7 +88,6 @@ export function Sponsors() {
   return (
       <>
         <Navbar/>
-        <div className='fond'>
         {problema?
       <div className="containerCentrar">
         <Link to={`/`}><button onClick={clearToken} className="btn btn-danger juegosButton">Volver</button></Link>
@@ -97,7 +95,7 @@ export function Sponsors() {
       <></>}
 
       <div className={problema?"d-none":"containerCentrar"}>
-            <button onClick={renderNuevoSponsorForm} className='btn btn-success juegosButton'>Crear Sponsor</button>
+            <button onClick={renderNuevoSponsorForm} className='btn btn-success juegosButton'>Crear sponsor</button>
             <Link to={`/admin`}><button className='btn btn-warning sponsorsButton'>Volver</button></Link>
       </div>
       {nuevo?
@@ -123,8 +121,6 @@ export function Sponsors() {
           </div>
 
         </div>
-        </div>
-        <Footer/>   
       </>
   )
 }

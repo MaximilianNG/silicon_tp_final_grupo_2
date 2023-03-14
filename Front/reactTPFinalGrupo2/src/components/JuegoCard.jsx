@@ -72,10 +72,12 @@ export function JuegoCard(props) {
   return (
     <>
         <div className="card">
-            <div className="card-body">
-                <h5 className="card-title">{props.nombre}</h5>
-            </div>
-            <div className="cardBotonesContainer">
+            <div className="card-body card-header">
+              <div className="container">
+                <div className="row">
+                  <div className="col"><h5 className="card-header">{props.nombre}</h5></div>
+                  <div className="col">
+                  <div className="cardBotonesContainer float-end">
                 <button onClick={() => renderEditarForm()} className="btn btn-primary">Editar</button>
                 {estado?
                 <button onClick={() => estadoJuego(id, '0')}
@@ -83,11 +85,17 @@ export function JuegoCard(props) {
                 <button onClick={() => estadoJuego(id, '1')} 
                 className="btn btn-danger">Inactivo</button>}
             </div>
+                  </div>
+                </div>
+              </div>
+                
+            </div>
+
             {editar?
             <form id="editarJuego" className={`editarContainer ${animacion ? "mostrar" : ""}`}
                   onSubmit={(e) => editarJuego(id, e)}>
               <div>
-                <label htmlFor="nombreJuego" className="form-label mx-2">Nuevo nombre del juego:</label>
+                <label htmlFor="nombreJuego" className="form-label mx-2 pt-3">Nuevo nombre del juego:</label>
                 <input type="text" className="form-control mb-3" id="nombreJuego" required
                 aria-describedby="nombreJuego" ref={nombre_juego}/>
               </div>

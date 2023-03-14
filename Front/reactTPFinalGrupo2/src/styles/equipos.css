@@ -24,8 +24,19 @@
     padding: 1rem;
     border: 5px ridge #7c4792;
     transition: opacity 0.25s ease-in;
+    min-width: 35vw
 }
 
 .mostrar {
     opacity: 1;
 }
+
+@media only screen and (min-width: 992px) {
+    .containerEquipos {
+        display: flex;
+        flex-direction: column;
+        row-gap: 1rem;
+        width: 60%;
+        justify-content: center;
+    }
+ }

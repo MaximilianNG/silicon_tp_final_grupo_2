@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Navbar  from './Navbar'
-import  Footer  from './Footer'
+
 
 export function Juegos() {
   //Estados del componente
@@ -75,46 +75,46 @@ export function Juegos() {
 
   return (
       <>
-        <Navbar/>
-        <div className='fond'>
+        
         {problema?
           <div className="containerCentrar">
               <Link to={`/`}><button onClick={clearToken} className="btn btn-danger juegosButton">Volver</button></Link>
           </div>
           :
-      <></>}
-      
-      <div className="containerCentrar">
+      <>
+      <Navbar/>
+        <div className={problema?"d-none":"containerCentrar"}>
             <button onClick={() => renderNuevoJuegoForm()} 
-            className={problema?`d-none`:`btn btn-success juegosButton`}>Nuevo Juego</button>
-      </div>
+            className="btn btn-success juegosButton">Crear juego</button>
+            <Link to={`/admin`}><button className="btn btn-warning juegosButton">Volver</button></Link>
+        </div>
+      
       {nuevo?
-      <form id="nuevoJuego" className={`containerNuevo ${animacion ? "mostrar" : ""}`}
-            onSubmit={nuevoJuego}>
-      <div>
-        <label htmlFor="nombreJuego" className="form-label text-light mb-2">Nombre del juego</label>
-        <input type="text" className="form-control mb-3" id="nombreJuego" required
-        aria-describedby="nombreJuego" ref={nombre_juego}/>
-      </div>
-      <button form="nuevoJuego" type="submit" className="btn btn-primary">Agregar</button>
-    </form>
+        <form id="nuevoJuego" className={`containerNuevo ${animacion ? "mostrar" : ""}`}
+              onSubmit={nuevoJuego}>
+        <div>
+          <label htmlFor="nombreJuego" className="form-label text-light mb-2">Nombre del juego</label>
+          <input type="text" className="form-control mb-3" id="nombreJuego" required
+          aria-describedby="nombreJuego" ref={nombre_juego}/>
+        </div>
+        <button form="nuevoJuego" type="submit" className="btn btn-primary">Agregar</button>
+        </form>
       :
       <></>}
       
         <div className="containerJuegos">
-          {juegos.length >= 1?
-          juegos.map((juego) => (
-            <JuegoCard key={uuidv4()} nombre={`${juego.nombre}`} estado={`${juego.estado}`}
-            id={`${juego.id}`}/>
-          )):
-          <p></p>}
+          <div className="container">
+            <div className="row gy-3">
+                {juegos.length >= 1?
+              juegos.map((juego) => (
+                <JuegoCard key={uuidv4()} nombre={`${juego.nombre}`} estado={`${juego.estado}`}
+                id={`${juego.id}`}/>
+              )):
+              <p></p>}
+            </div>
+          </div>
         </div>
-        <div className="containerCentrar">
-            <Link to={`/admin`}><button className={problema?`d-none`:`btn btn-warning juegosButton`}>Volver</button></Link>
-        </div>
-        </div>
-        <Footer/>
-
+        </>}
       </>
   )
 }

@@ -6,6 +6,7 @@ import { Torneos } from './Torneos'
 import { Sponsors } from './Sponsors'
 import { Equipos } from './Equipos'
 import { Jugadores } from './Jugadores'
+import  Footer  from './Footer'
 import { ToastContainer, Flip, toast } from 'react-toastify';
 import '../styles/app.css'
 
@@ -13,8 +14,6 @@ function App() {
   return (
   <>
   <div className="fullContainer">
-    <img src='../imagenes/logotorneo.png' id='Logo' alt='imagen del Logo'></img>
-    {/* <p className="display-4 text-light text-center bg-gradient">TP Final Grupo 2</p> */}
     <Routes>
       <Route path='/' element={<Login />}></Route>
       <Route path='/admin' element={<Admin />}></Route>
@@ -24,7 +23,9 @@ function App() {
       <Route path='/equipos' element={<Equipos />}></Route>
       <Route path='/jugadores' element={<Jugadores />}></Route>
     </Routes>
+    <Footer/>
   </div>
+  
   <ToastContainer
           position="bottom-right"
           autoClose={1500}
@@ -39,6 +40,7 @@ function App() {
           transition={Flip}
           />
   </>
+
   )
 }
 

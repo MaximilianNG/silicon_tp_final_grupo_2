@@ -99,15 +99,35 @@ export function TorneoCard(props) {
   return (
     <div className="card">
         <div className="card-body">
-            <h5 className="card-title">{props.nombre}</h5>
+          <div className="container">
+            <div className="row">
+              <h5 className="card-title card-header">{props.nombre}</h5>
+            </div>
+            <div className="row mt-3">
+              <div className="col">
+                <p className="card-text">Fecha: {fecha}</p>
+              </div>
+              <div className="col">
+                <p className="card-text">Juego: {juego}</p>
+              </div>
+              <div className="col">
+              <p className="card-text">Localidad: {localidad}</p>
+              </div>
+            </div>
             <hr></hr>
-            <p className="card-text">Fecha: {fecha}</p>
-            <p className="card-text">Juego: {juego}</p>
-            <p className="card-text">Localidad: {localidad}</p>
-            <hr></hr>
-            <p className="card-text"><NombreEquipo equipos={equipos} id={props.primero} posicion={"1"}/></p>
-            <p className="card-text"><NombreEquipo equipos={equipos} id={props.segundo} posicion={"2"}/></p>
-            <p className="card-text"><NombreEquipo equipos={equipos} id={props.tercero} posicion={"3"}/></p>
+            <div className="row">
+              <div className="col">
+                <p className="card-text"><NombreEquipo equipos={equipos} id={props.primero} posicion={"1"}/></p>
+              </div>
+              <div className="col">
+                <p className="card-text"><NombreEquipo equipos={equipos} id={props.segundo} posicion={"2"}/></p>
+              </div>
+              <div className="col">
+                <p className="card-text"><NombreEquipo equipos={equipos} id={props.tercero} posicion={"3"}/></p>
+              </div>
+            </div>
+          </div>
+            
         </div>
         <div className="cardBotonesContainer">
             <button onClick={() => renderEditarForm()} className="btn btn-primary">Editar</button>

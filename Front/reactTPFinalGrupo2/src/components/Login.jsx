@@ -46,9 +46,9 @@ export function Login() {
 
   return (
       <>
-        <img src='../imagenes/logotorneo.png' id='Logo' alt='imagen del Logo'></img>
+        <img src='../imagenes/logotorneo.png' id='Logo' alt='imagen del Logo' className=""></img>
         <div className="text-light loginForm" >
-            <form className="mx-3 align-self-center" id="login" onSubmit={login}>
+            <form className="align-self-center" id="login" onSubmit={login}>
                 <div className="form-group">
                     <label htmlFor="exampleInputEmail1">Usuario</label>
                     <input type="text" className="form-control" id="exampleInputEmail1" 

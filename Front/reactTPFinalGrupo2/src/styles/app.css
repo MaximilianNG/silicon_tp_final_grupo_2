@@ -2,12 +2,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: start;
+    padding-bottom: 2rem;
 }
 
 #Logo{
     margin-top: 3px !important;
-
-    margin:auto;
     width: 30%;
 }
 
@@ -15,4 +15,4 @@
     #Logo {
       width: 100%;
     }
-  }
+}

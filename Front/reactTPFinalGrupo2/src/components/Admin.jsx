@@ -30,33 +30,40 @@ export function Admin() {
   const clearToken = () => {
     window.localStorage.removeItem('usuario');
     window.localStorage.removeItem('token');
-  }
+    }
+
   return (
       <>
-        <Navbar/>
-        
-        <div className="containerP">
-
-
-          <div className="slider">
-            <ul>
-                <li>
-                    <img src="https://images.alphacoders.com/608/608898.jpg"/>
-                </li>
-                <li>
-                    <img src="https://images7.alphacoders.com/570/570390.jpg"/>
-                </li>
-                <li>
-                    <img src="https://images.alphacoders.com/128/1282982.jpg"/>
-                </li>
-                <li>
-                    <img src="https://images8.alphacoders.com/627/627080.png"/>
-                </li>
-            </ul>
+      {problema?
+        <div className="containerCentrar">
+          <Link to={`/`}><button onClick={clearToken} className="btn btn-danger juegosButton">Volver</button></Link>
+        </div>:
+      <>
+      <Navbar/>
+      <div className="d-flex flex-column justify-content-center centrarCarrusel">
+        <div className="carruselContainer mt-auto">
+          <div id="carruselJuegos" className="carousel carousel-fade" data-bs-ride="carousel" data-bs-pause="hover">
+            <div className="carousel-inner">
+              <div className="carousel-item" data-bs-interval="4000">
+                <img src="https://images7.alphacoders.com/673/673384.jpg" className="d-block carruselImagen" alt="..."/>
+              </div>
+              <div className="carousel-item" data-bs-interval="4000">
+                <img src="https://images3.alphacoders.com/602/602045.jpg" className="d-block carruselImagen" alt="..."/>
+              </div>
+              <div className="carousel-item active" data-bs-interval="4000">
+                <img src="https://images7.alphacoders.com/108/1081001.jpg" className="d-block carruselImagen" alt="..."/>
+              </div>
+              <div className="carousel-item" data-bs-interval="4000">
+                <img src="https://images7.alphacoders.com/129/1293484.jpg" className="d-block carruselImagen" alt="..."/>
+              </div>
+            </div>
           </div>
-          
         </div>
-        <Footer/>
+          
+      </div>
+
+        </>}
+        
       </>
   )
 }

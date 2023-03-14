@@ -28,3 +28,15 @@
 .mostrar {
     opacity: 1;
 }
+/* 
+.phoneContainer {
+    display: flex;
+} */
+
+@media only screen and (min-width: 992px) {
+    
+    .card-text {
+        display: flex;
+        flex-direction: row;
+    }
+ }

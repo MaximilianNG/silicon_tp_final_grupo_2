@@ -1,8 +1,7 @@
 footer{
+    position: fixed;
     background-color:rgb(0, 0, 0);
-    position: absolute;
     width: 100%;
-}
-#foo{
-    position: relative;
+    bottom: 0;
+    font-size: 1rem;
 }

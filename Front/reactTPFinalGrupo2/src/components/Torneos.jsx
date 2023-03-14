@@ -10,7 +10,6 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom'
 import Navbar  from './Navbar'
-import  Footer  from './Footer'
 
 export function Torneos() {
   //Navigate
@@ -101,16 +100,16 @@ export function Torneos() {
 
   return (
     <>
-      <Navbar/>
-      <div className='fond'>
+      
       {problema?
       <div className="containerCentrar">
         <Link to={`/`}><button onClick={clearToken} className="btn btn-danger juegosButton">Volver</button></Link>
       </div>:
-      <></>}
+      <Navbar/>}
       <div className={problema?"d-none":"containerCentrar"}>
             <button onClick={() => renderNuevoTorneoForm()} 
-            className='btn btn-success torneosButton'>Crear Torneo</button>
+            className='btn btn-success torneosButton'>Crear torneo</button>
+            <Link to={`/admin`}><button className='btn btn-warning torneosButton'>Volver</button></Link>
       </div>
 
       {nuevo?
@@ -194,17 +193,16 @@ export function Torneos() {
           :<></>}
 
         <div className="containerTorneos">
-          {torneos.map((torneo) => (
-            <TorneoCard key={uuidv4()} juego={torneo.juego} localidad={torneo.localidad} 
-            fecha={torneo.fecha} id={torneo.id} nombre={torneo.nombre} estado={torneo.estado} primero={torneo.id_primerPuesto} 
-            segundo={torneo.id_segundoPuesto} tercero={torneo.id_tercerPuesto} equipos={equipos} juegos={juegos}/>
-          ))}
+          <div className="container">
+            <div className="row gy-3">
+              {torneos.map((torneo) => (
+              <TorneoCard key={uuidv4()} juego={torneo.juego} localidad={torneo.localidad} 
+              fecha={torneo.fecha} id={torneo.id} nombre={torneo.nombre} estado={torneo.estado} primero={torneo.id_primerPuesto} 
+              segundo={torneo.id_segundoPuesto} tercero={torneo.id_tercerPuesto} equipos={equipos} juegos={juegos}/>
+            ))}
+            </div>
+          </div>
         </div>
-        <div className={problema?"d-none":"containerCentrar"}>
-            <Link to={`/admin`}><button className='btn btn-warning torneosButton'>Volver</button></Link>
-        </div>
-      </div>
-      <Footer/>     
     </>
   )
 }
